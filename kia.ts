@@ -64,18 +64,42 @@ export class Kia {
 		this.isRunning = false;
 	}
 
+	/**
+	 * Stops the spinner and leaves a success message.
+	 * 
+	 * The function is a wrapper around ```stopWithFlair```.
+	 * @param text The message to be shown when stopped
+	 */
 	async succeed(text: string = this.options.text) {
 		await this.stopWithFlair(text, bold(green("√")));
 	}
 
+	/**
+	 * Stops the spinner and leaves a failure message.
+	 * 
+	 * The function is a wrapper around ```stopWithFlair```.
+	 * @param text The message to be shown when stopped
+	 */
 	async fail(text: string = this.options.text) {
 		await this.stopWithFlair(text, bold(red("X")))
 	}
 
+	/**
+	 * Stops the spinner and leaves a warning message.
+	 * 
+	 * The function is a wrapper around ```stopWithFlair```.
+	 * @param text The message to be shown when stopped
+	 */
 	async warn(text: string = this.options.text){
 		await this.stopWithFlair(text, bold(yellow("!")))
 	}
-
+	
+	/**
+	 * Stops the spinner and leaves an information message.
+	 * 
+	 * The function is a wrapper around ```stopWithFlair```.
+	 * @param text The message to be shown when stopped
+	 */
 	async info(text: string = this.options.text){
 		await this.stopWithFlair(text, bold(blue("i")))
 	}
