@@ -23,3 +23,15 @@ export const dots: Spinner = {
         "⠏"
     ]
 }
+
+export const arc: Spinner = {
+    interval: 100,
+    frames: [
+        "◜",
+        "◠",
+        "◝",
+        "◞",
+        "◡",
+        "◟"
+    ]
+}
