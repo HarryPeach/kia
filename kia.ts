@@ -1,4 +1,4 @@
-import { Spinner, dots } from "./spinners.ts";
+import { Spinner, dots, windows } from "./spinners.ts";
 import { overwriteLine, colorise, Color } from "./util.ts";
 
 export interface Options {
@@ -12,7 +12,7 @@ export class Kia {
 	private options: Options = {
 		text: "Sample Loading",
 		color: Color.White,
-		spinner: dots,
+		spinner: Deno.build.os === "windows" ? windows : dots,
 	};
 
 	private timeoutRef: any;
@@ -21,6 +21,7 @@ export class Kia {
 
 	constructor(options: InputOptions) {
 		this.setOptions(options);
+		console.log();
 	}
 
 	public setOptions(options: InputOptions){
