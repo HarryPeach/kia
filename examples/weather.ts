@@ -12,24 +12,24 @@ const kia = new Kia({text: "Loading sun", color: "cyan"});
 await kia.start();
 await sleep(2000);
 // Change the spinner options
-kia.setOptions({text: "Loading some more"});
+kia.set({text: "Loading some more"});
 await sleep(1000);
 // Finish spinning successfully
 await kia.succeed("Loaded sun");
 
-kia.setOptions({text: "Loading clouds"});
+kia.set({text: "Loading clouds"});
 await kia.start();
 await sleep(2000);
 // Finish spinning with a warning
 await kia.warn("Some clouds loaded");
 
-kia.setOptions({text: "Getting the temperature"})
+kia.set({text: "Getting the temperature"})
 await kia.start();
 await sleep(2500);
 // Finish spinning with an info message
 await kia.info("Nice and warm!");
 
-kia.setOptions({text: "Loading rain"})
+kia.set({text: "Loading rain"})
 await kia.start();
 await sleep(2000);
 // Finish spinning with a failure message

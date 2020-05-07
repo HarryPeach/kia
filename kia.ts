@@ -21,12 +21,16 @@ export class Kia {
 	private currentFrame: number = 0;
 	private textEncoder = new TextEncoder();
 
-	constructor(options: InputOptions) {
-		this.setOptions(options);
-		console.log();
+	constructor(options: InputOptions | string) {
+		this.set(options);
 	}
 
-	public setOptions(options: InputOptions) {
+	public set(options: InputOptions | string) {
+		if(typeof options === "string"){
+			options = {
+				text: options
+			}
+		}
 		Object.assign(this.options, options);
 	}
 
