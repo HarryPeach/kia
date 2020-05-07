@@ -1,4 +1,4 @@
-import { Spinner, dots, windows } from "./spinners.ts";
+import { Spinner, SPINNERS } from "./spinners.ts";
 import { overwriteLine, colorise, Color } from "./util.ts";
 import {bold, green, red, yellow, blue} from "https://deno.land/std/fmt/colors.ts";
 
@@ -13,7 +13,7 @@ export class Kia {
 	private options: Options = {
 		text: "",
 		color: "white",
-		spinner: Deno.build.os === "windows" ? windows : dots,
+		spinner: Deno.build.os === "windows" ? SPINNERS.windows : SPINNERS.dots,
 	};
 
 	private timeoutRef: any;

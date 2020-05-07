@@ -56,7 +56,8 @@ The color for the spinner to be. Uses the color type in util.ts, which maps to t
 
 Type: [Spinner](https://github.com/HarryPeach/kia/blob/8fb27cbd0bb4ef08ad26124d4a6e4f2ba2dc0c5c/spinners.ts#L1)
 
-The spinner that the Kia instance should use. There are spinners provided in ```spinners.ts``` or you can provide it with an object like so: 
+The spinner that the Kia instance should use. There are spinners provided in `spinners.ts` or you can provide it with an object like so:
+
 ```typescript
     {
         interval: 80,
@@ -64,27 +65,39 @@ The spinner that the Kia instance should use. There are spinners provided in ```
     }
 ```
 
-On windows the spinner defaults to ```windows```, while on other OSes it defaults to ```dots```.
+On windows the spinner defaults to `windows`, while on other OSes it defaults to `dots`.
+
+Spinners can also be imported from anywhere as long as they follow this format. See the `examples/externalSpinners.ts` example for more info.
 
 ### Instance
+
 #### .start()
+
 Starts the spinner.
 
 #### .stop()
+
 Stops the spinner and clears the line.
 
 #### .set(options)
+
 Allows you to change the spinners options.
+
 ```typescript
 const kia = new Kia("Hello");
-kia.set({text: "Goodbye", color: "Red"});
+kia.set({ text: "Goodbye", color: "Red" });
 ```
 
 #### .succeed(text?)
+
 #### .fail(text?)
+
 #### .warn(text?)
+
 #### .info(text?)
-Stops the spinner, and returns a message with the current text or the provided ```text``` as well as an icon indicating status. Wraps around ```stopWithFlair()```
+
+Stops the spinner, and returns a message with the current text or the provided `text` as well as an icon indicating status. Wraps around `stopWithFlair()`
 
 #### .stopWithFlair(text, flair)
-Stops the spinner, and returns a message with the current text or the provided ```text``` as well as the preceding flair/icon.
+
+Stops the spinner, and returns a message with the current text or the provided `text` as well as the preceding flair/icon.

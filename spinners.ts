@@ -1,37 +1,19 @@
 export interface Spinner {
-    interval: number;
-    frames: string[];
+	interval: number;
+	frames: string[];
 }
 
-export const windows: Spinner = {
-    interval: 80,
-    frames: ["/", "-", "\\", "|"]
-}
-
-export const dots: Spinner = {
-    interval: 80,
-    frames: [
-        "⠋",
-        "⠙",
-        "⠹",
-        "⠸",
-        "⠼",
-        "⠴",
-        "⠦",
-        "⠧",
-        "⠇",
-        "⠏"
-    ]
-}
-
-export const arc: Spinner = {
-    interval: 100,
-    frames: [
-        "◜",
-        "◠",
-        "◝",
-        "◞",
-        "◡",
-        "◟"
-    ]
-}
+export const SPINNERS = {
+	windows: {
+		interval: 80,
+		frames: ["/", "-", "\\", "|"],
+	},
+	dots: {
+		interval: 80,
+		frames: ["⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏"],
+	},
+	arc: {
+		interval: 100,
+		frames: ["◜", "◠", "◝", "◞", "◡", "◟"],
+	},
+};
