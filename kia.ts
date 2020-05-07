@@ -1,5 +1,5 @@
 import { Spinner, SPINNERS } from "./spinners.ts";
-import { overwriteLine, colorise, Color } from "./util.ts";
+import { writeLine, colorise, Color, clearLine } from "./util.ts";
 import {
 	bold,
 	green,
@@ -13,6 +13,7 @@ export interface Options {
 	color: Color;
 	spinner: Spinner;
 	prefixText: string;
+	indent: number;
 }
 type InputOptions = Partial<Options>;
 
@@ -22,6 +23,7 @@ export class Kia {
 		color: "white",
 		spinner: Deno.build.os === "windows" ? SPINNERS.windows : SPINNERS.dots,
 		prefixText: "",
+		indent: 4,
 	};
 
 	private timeoutRef: any;
@@ -64,7 +66,7 @@ export class Kia {
 	 */
 	async stop() {
 		clearInterval(this.timeoutRef);
-		await overwriteLine(this.textEncoder, `\x1b[2K`);
+		await clearLine(this.textEncoder);
 	}
 
 	/**
@@ -74,7 +76,12 @@ export class Kia {
 	 */
 	async stopWithFlair(text: string = this.options.text, flair: string) {
 		clearInterval(this.timeoutRef);
-		await overwriteLine(this.textEncoder, `\x1b[2K ${flair} ${text}`);
+		await clearLine(this.textEncoder);
+		await writeLine(
+			this.textEncoder,
+			`${flair} ${text}`,
+			this.options.indent
+		);
 		console.log();
 		this.spinning = false;
 	}
@@ -130,11 +137,12 @@ export class Kia {
 	 * Renders each frame of the spinner
 	 */
 	private async render() {
-		await overwriteLine(
+		await writeLine(
 			this.textEncoder,
-			`${this.options.prefixText} ${colorise(this.options.color)(
+			`${this.options.prefixText}${colorise(this.options.color)(
 				this.options.spinner.frames[this.currentFrame]
-			)} ${this.options.text}`
+			)} ${this.options.text}`,
+			this.options.indent
 		);
 	}
 }

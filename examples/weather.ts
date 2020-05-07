@@ -23,7 +23,7 @@ await sleep(2000);
 // Finish spinning with a warning
 await kia.warn("Some clouds loaded");
 
-kia.start("Gettings the temperature");
+kia.start("Getting the temperature");
 await sleep(2000);
 // Finish spinning with an info message
 await kia.info("Nice and warm!");

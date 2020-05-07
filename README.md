@@ -46,13 +46,13 @@ Type: String
 
 The text to display after the spinner
 
-#### color
+##### color
 
 Type: [Color](https://github.com/HarryPeach/kia/blob/8fb27cbd0bb4ef08ad26124d4a6e4f2ba2dc0c5c/util.ts#L6)
 
 The color for the spinner to be. Uses the color type in util.ts, which maps to the Deno standard colors.
 
-#### spinner
+##### spinner
 
 Type: [Spinner](https://github.com/HarryPeach/kia/blob/8fb27cbd0bb4ef08ad26124d4a6e4f2ba2dc0c5c/spinners.ts#L1)
 
@@ -68,6 +68,12 @@ The spinner that the Kia instance should use. There are spinners provided in `sp
 On windows the spinner defaults to `windows`, while on other OSes it defaults to `dots`.
 
 Spinners can also be imported from anywhere as long as they follow this format. See the `examples/externalSpinners.ts` example for more info.
+
+##### indent
+
+Type: number
+
+The level of indentation of the spinner in spaces
 
 ### Instance
 

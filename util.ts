@@ -1,5 +1,8 @@
 import * as Colors from "https://deno.land/std/fmt/colors.ts";
 
+// Terminal escape sequences
+const ESC = "\x1b[";
+
 /**
  * The colors to be used with the Kia spinner
  */
@@ -38,6 +41,16 @@ export const colorise = (color: Color): Function => {
  * @param encoder A TextEncoder object
  * @param text The text to be written
  */
-export const overwriteLine = async (encoder: TextEncoder, text: string) => {
-	await Deno.stdout.write(encoder.encode(`\r${text}`));
+export const writeLine = async (
+	encoder: TextEncoder,
+	text: string,
+	indent?: number
+) => {
+	await Deno.stdout.write(
+		encoder.encode(`\r${indent ? ESC + indent + "C" : ""}${text}`)
+	);
+};
+
+export const clearLine = async (encoder: TextEncoder) => {
+	await Deno.stdout.write(encoder.encode(ESC + "2K"));
 };
