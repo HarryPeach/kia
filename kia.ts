@@ -42,10 +42,14 @@ export class Kia {
 
 	/**
 	 * Starts the spinner
+	 * @param text The text to display after the spinner
 	 */
-	async start() {
+	async start(text?: string) {
 		if (this.isRunning) return;
 		this.isRunning = true;
+		if (text) {
+			await this.set(text);
+		}
 		this.timeoutRef = setInterval(async () => {
 			this.currentFrame =
 				(this.currentFrame + 1) % this.options.spinner.frames.length;

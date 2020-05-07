@@ -71,9 +71,9 @@ Spinners can also be imported from anywhere as long as they follow this format. 
 
 ### Instance
 
-#### .start()
+#### .start(text?)
 
-Starts the spinner.
+Starts the spinner. Optionally sets the text at the same time.
 
 #### .stop()
 
