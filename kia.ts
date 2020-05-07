@@ -1,6 +1,12 @@
 import { Spinner, SPINNERS } from "./spinners.ts";
 import { overwriteLine, colorise, Color } from "./util.ts";
-import {bold, green, red, yellow, blue} from "https://deno.land/std/fmt/colors.ts";
+import {
+	bold,
+	green,
+	red,
+	yellow,
+	blue,
+} from "https://deno.land/std/fmt/colors.ts";
 
 export interface Options {
 	text: string;
@@ -25,11 +31,11 @@ export class Kia {
 		this.set(options);
 	}
 
-	public set(options: InputOptions | string) {
-		if(typeof options === "string"){
+	public async set(options: InputOptions | string) {
+		if (typeof options === "string") {
 			options = {
-				text: options
-			}
+				text: options,
+			};
 		}
 		Object.assign(this.options, options);
 	}
@@ -38,8 +44,7 @@ export class Kia {
 	 * Starts the spinner
 	 */
 	async start() {
-		if(this.isRunning)
-			return;
+		if (this.isRunning) return;
 		this.isRunning = true;
 		this.timeoutRef = setInterval(async () => {
 			this.currentFrame =
@@ -63,14 +68,14 @@ export class Kia {
 	 */
 	async stopWithFlair(text: string = this.options.text, flair: string) {
 		clearInterval(this.timeoutRef);
-		await overwriteLine(this.textEncoder, `\x1b[2K ${flair} ${text}`)
+		await overwriteLine(this.textEncoder, `\x1b[2K ${flair} ${text}`);
 		console.log();
 		this.isRunning = false;
 	}
 
 	/**
 	 * Stops the spinner and leaves a success message.
-	 * 
+	 *
 	 * The function is a wrapper around ```stopWithFlair```.
 	 * @param text The message to be shown when stopped
 	 */
@@ -80,32 +85,32 @@ export class Kia {
 
 	/**
 	 * Stops the spinner and leaves a failure message.
-	 * 
+	 *
 	 * The function is a wrapper around ```stopWithFlair```.
 	 * @param text The message to be shown when stopped
 	 */
 	async fail(text: string = this.options.text) {
-		await this.stopWithFlair(text, bold(red("X")))
+		await this.stopWithFlair(text, bold(red("X")));
 	}
 
 	/**
 	 * Stops the spinner and leaves a warning message.
-	 * 
+	 *
 	 * The function is a wrapper around ```stopWithFlair```.
 	 * @param text The message to be shown when stopped
 	 */
-	async warn(text: string = this.options.text){
-		await this.stopWithFlair(text, bold(yellow("!")))
+	async warn(text: string = this.options.text) {
+		await this.stopWithFlair(text, bold(yellow("!")));
 	}
-	
+
 	/**
 	 * Stops the spinner and leaves an information message.
-	 * 
+	 *
 	 * The function is a wrapper around ```stopWithFlair```.
 	 * @param text The message to be shown when stopped
 	 */
-	async info(text: string = this.options.text){
-		await this.stopWithFlair(text, bold(blue("i")))
+	async info(text: string = this.options.text) {
+		await this.stopWithFlair(text, bold(blue("i")));
 	}
 
 	/**

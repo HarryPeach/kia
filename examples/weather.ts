@@ -2,34 +2,34 @@ import { Kia } from "../kia.ts";
 
 // Just a function to async sleep
 function sleep(ms: number) {
-	return new Promise(resolve => setTimeout(resolve, ms));
+	return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 // Create a spinner instance
-const kia = new Kia({text: "Loading sun", color: "cyan"});
+const kia = new Kia({ text: "Loading sun", color: "cyan" });
 
 // Start the spinner
 await kia.start();
 await sleep(2000);
 // Change the spinner options
-kia.set({text: "Loading some more"});
+await kia.set({ text: "Loading some more" });
 await sleep(1000);
 // Finish spinning successfully
 await kia.succeed("Loaded sun");
 
-kia.set({text: "Loading clouds"});
+await kia.set({ text: "Loading clouds" });
 await kia.start();
 await sleep(2000);
 // Finish spinning with a warning
 await kia.warn("Some clouds loaded");
 
-kia.set({text: "Getting the temperature"})
+await kia.set({ text: "Getting the temperature" });
 await kia.start();
 await sleep(2500);
 // Finish spinning with an info message
 await kia.info("Nice and warm!");
 
-kia.set({text: "Loading rain"})
+await kia.set({ text: "Loading rain" });
 await kia.start();
 await sleep(2000);
 // Finish spinning with a failure message

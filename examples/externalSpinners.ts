@@ -13,6 +13,6 @@ await kia.start();
 await sleep(2000);
 
 // Switch the spinner to "dots8"
-kia.set({ text: "Another spinner!", spinner: SPINNERS.dots8 });
+await kia.set({ text: "Another spinner!", spinner: SPINNERS.dots8 });
 await sleep(2000);
 await kia.stop();

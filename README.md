@@ -85,7 +85,7 @@ Allows you to change the spinners options.
 
 ```typescript
 const kia = new Kia("Hello");
-kia.set({ text: "Goodbye", color: "Red" });
+await kia.set({ text: "Goodbye", color: "Red" });
 ```
 
 #### .succeed(text?)
