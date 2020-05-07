@@ -12,6 +12,7 @@ export interface Options {
 	text: string;
 	color: Color;
 	spinner: Spinner;
+	prefixText: string;
 }
 type InputOptions = Partial<Options>;
 
@@ -20,6 +21,7 @@ export class Kia {
 		text: "",
 		color: "white",
 		spinner: Deno.build.os === "windows" ? SPINNERS.windows : SPINNERS.dots,
+		prefixText: "",
 	};
 
 	private timeoutRef: any;
@@ -130,7 +132,7 @@ export class Kia {
 	private async render() {
 		await overwriteLine(
 			this.textEncoder,
-			`${colorise(this.options.color)(
+			`${this.options.prefixText} ${colorise(this.options.color)(
 				this.options.spinner.frames[this.currentFrame]
 			)} ${this.options.text}`
 		);
