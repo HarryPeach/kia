@@ -2,7 +2,7 @@
 
 > Simple terminal spinners for Deno 🦕
 
-![weather.ts example](https://i.imgur.com/eNL0i6G.gif)
+![weather.ts example](https://user-images.githubusercontent.com/4750998/81313185-710ac900-907f-11ea-9735-d623559d08f6.gif)
 
 > Based on the [ora](https://www.npmjs.com/package/ora) with inspirations from [cli-spinners](https://www.npmjs.com/package/cli-spinners), and [CLI Spinners for Deno](https://deno.land/x/cli_spinners/)
 
@@ -80,7 +80,10 @@ const kia = new Kia("Hello");
 kia.set({text: "Goodbye", color: "Red"});
 ```
 
-#### .succeed(text?), .fail(text?), .warn(text?), .info(text?)
+#### .succeed(text?)
+#### .fail(text?)
+#### .warn(text?)
+#### .info(text?)
 Stops the spinner, and returns a message with the current text or the provided ```text``` as well as an icon indicating status. Wraps around ```stopWithFlair()```
 
 #### .stopWithFlair(text, flair)
