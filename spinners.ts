@@ -7,3 +7,19 @@ export const windows: Spinner = {
     interval: 80,
     frames: ["/", "-", "\\", "|"]
 }
+
+export const dots: Spinner = {
+    interval: 80,
+    frames: [
+        "⠋",
+        "⠙",
+        "⠹",
+        "⠸",
+        "⠼",
+        "⠴",
+        "⠦",
+        "⠧",
+        "⠇",
+        "⠏"
+    ]
+}
