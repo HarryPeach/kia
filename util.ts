@@ -1,43 +1,28 @@
 import * as Colors from "https://deno.land/std/fmt/colors.ts";
-export enum Color {
-	Black,
-	Red,
-	Green,
-	Yellow,
-	Blue,
-	Magenta,
-	Cyan,
-	White,
-	Gray,
-}
 
 /**
- * Creates a colored terminal output, using the deno std lib
- * @param color The color to transform the text
- * @param text The text to be colorised
+ * The colors to be used with the Kia spinner
  */
-export const colorise = (color: Color, text: string): string => {
-	switch (color) {
-		case Color.Black:
-			return Colors.black(text);
-		case Color.Red:
-			return Colors.red(text);
-		case Color.Green:
-			return Colors.green(text);
-		case Color.Yellow:
-			return Colors.yellow(text);
-		case Color.Blue:
-			return Colors.blue(text);
-		case Color.Magenta:
-			return Colors.magenta(text);
-		case Color.Cyan:
-			return Colors.cyan(text);
-		case Color.White:
-			return Colors.white(text);
-		case Color.Gray:
-			return Colors.gray(text);
+export type Color = "black" | "red" | "green" | "yellow" | "blue" | "magenta" | "cyan" | "white" | "gray";
+
+/**
+ * Converts the Kia color type to the Deno color functions
+ * @param color The color string
+ */
+export const colorise = (color: Color) : Function => {
+	let map = {
+		"black": Colors.black,
+		"red": Colors.red,
+		"green": Colors.green,
+		"yellow": Colors.yellow,
+		"blue" : Colors.blue,
+		"magenta": Colors.magenta,
+		"cyan": Colors.cyan,
+		"white": Colors.white,
+		"gray": Colors.gray
 	}
-};
+	return map[color];
+}
 
 /**
  * Overwrites text on the current line
