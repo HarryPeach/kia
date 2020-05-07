@@ -4,7 +4,7 @@
 
 ![weather.ts example](https://user-images.githubusercontent.com/4750998/81313185-710ac900-907f-11ea-9735-d623559d08f6.gif)
 
-> Based on the [ora](https://www.npmjs.com/package/ora) with inspirations from [cli-spinners](https://www.npmjs.com/package/cli-spinners), and [CLI Spinners for Deno](https://deno.land/x/cli_spinners/)
+> Based on [ora](https://www.npmjs.com/package/ora) with inspirations from [cli-spinners](https://www.npmjs.com/package/cli-spinners), and [CLI Spinners for Deno](https://deno.land/x/cli_spinners/)
 
 ## Usage
 
@@ -17,7 +17,7 @@ await kia.start();
 await kia.success("Action completed");
 ```
 
-More thourough examples are available in the [examples folder](https://github.com/HarryPeach/kia/tree/master/examples)
+More thorough examples are available in the [examples folder](https://github.com/HarryPeach/kia/tree/master/examples)
 
 ## API
 
