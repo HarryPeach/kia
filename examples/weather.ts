@@ -9,28 +9,26 @@ function sleep(ms: number) {
 const kia = new Kia({ text: "Loading sun", color: "cyan" });
 
 // Start the spinner
-await kia.start();
+kia.start();
 await sleep(2000);
+
 // Change the spinner options
 await kia.set({ text: "Loading some more" });
 await sleep(1000);
 // Finish spinning successfully
 await kia.succeed("Loaded sun");
 
-await kia.set({ text: "Loading clouds" });
-await kia.start();
+kia.start("Loading clouds");
 await sleep(2000);
 // Finish spinning with a warning
 await kia.warn("Some clouds loaded");
 
-await kia.set({ text: "Getting the temperature" });
-await kia.start();
-await sleep(2500);
+kia.start("Gettings the temperature");
+await sleep(2000);
 // Finish spinning with an info message
 await kia.info("Nice and warm!");
 
-await kia.set({ text: "Loading rain" });
-await kia.start();
+kia.start("Loading rain");
 await sleep(2000);
 // Finish spinning with a failure message
 await kia.fail("Rain could not be loaded!");

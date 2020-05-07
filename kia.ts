@@ -23,7 +23,7 @@ export class Kia {
 	};
 
 	private timeoutRef: any;
-	private isRunning: boolean = false;
+	private spinning: boolean = false;
 	private currentFrame: number = 0;
 	private textEncoder = new TextEncoder();
 
@@ -45,8 +45,8 @@ export class Kia {
 	 * @param text The text to display after the spinner
 	 */
 	async start(text?: string) {
-		if (this.isRunning) return;
-		this.isRunning = true;
+		if (this.spinning) return;
+		this.spinning = true;
 		if (text) {
 			await this.set(text);
 		}
@@ -74,7 +74,7 @@ export class Kia {
 		clearInterval(this.timeoutRef);
 		await overwriteLine(this.textEncoder, `\x1b[2K ${flair} ${text}`);
 		console.log();
-		this.isRunning = false;
+		this.spinning = false;
 	}
 
 	/**
@@ -115,6 +115,13 @@ export class Kia {
 	 */
 	async info(text: string = this.options.text) {
 		await this.stopWithFlair(text, bold(blue("i")));
+	}
+
+	/**
+	 * Returns whether the instance is currently spinning
+	 */
+	isSpinning(): boolean {
+		return this.spinning;
 	}
 
 	/**
