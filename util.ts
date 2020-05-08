@@ -1,4 +1,4 @@
-import * as Colors from "https://deno.land/std/fmt/colors.ts";
+import { Colors } from "./deps.ts";
 
 // Terminal escape sequences
 const ESC = "\x1b[";

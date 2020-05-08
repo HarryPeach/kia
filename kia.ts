@@ -7,13 +7,7 @@ import {
 	showCursor,
 	hideCursor,
 } from "./util.ts";
-import {
-	bold,
-	green,
-	red,
-	yellow,
-	blue,
-} from "https://deno.land/std/fmt/colors.ts";
+import { Colors } from "./deps.ts";
 
 export interface Options {
 	text: string;
@@ -106,7 +100,7 @@ export class Kia {
 	 * @param text The message to be shown when stopped
 	 */
 	async succeed(text: string = this.options.text) {
-		await this.stopWithFlair(text, bold(green("√")));
+		await this.stopWithFlair(text, Colors.bold(Colors.green("√")));
 	}
 
 	/**
@@ -116,7 +110,7 @@ export class Kia {
 	 * @param text The message to be shown when stopped
 	 */
 	async fail(text: string = this.options.text) {
-		await this.stopWithFlair(text, bold(red("X")));
+		await this.stopWithFlair(text, Colors.bold(Colors.red("X")));
 	}
 
 	/**
@@ -126,7 +120,7 @@ export class Kia {
 	 * @param text The message to be shown when stopped
 	 */
 	async warn(text: string = this.options.text) {
-		await this.stopWithFlair(text, bold(yellow("!")));
+		await this.stopWithFlair(text, Colors.bold(Colors.yellow("!")));
 	}
 
 	/**
@@ -136,7 +130,7 @@ export class Kia {
 	 * @param text The message to be shown when stopped
 	 */
 	async info(text: string = this.options.text) {
-		await this.stopWithFlair(text, bold(blue("i")));
+		await this.stopWithFlair(text, Colors.bold(Colors.blue("i")));
 	}
 
 	/**
