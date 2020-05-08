@@ -23,7 +23,7 @@ export class Kia {
 		color: "white",
 		spinner: Deno.build.os === "windows" ? SPINNERS.windows : SPINNERS.dots,
 		prefixText: "",
-		indent: 4,
+		indent: 0,
 	};
 
 	private timeoutRef: any;
