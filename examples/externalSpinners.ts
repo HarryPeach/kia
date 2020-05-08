@@ -1,4 +1,4 @@
-import { Kia } from "../kia.ts";
+import Kia from "../mod.ts";
 // Import some spinners from cli-spinners by ameerthehacker
 import { SPINNERS } from "https://raw.githubusercontent.com/ameerthehacker/cli-spinners/master/spinners.ts";
 

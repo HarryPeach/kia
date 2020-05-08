@@ -1,4 +1,4 @@
-import { Kia } from "../kia.ts";
+import Kia, { Spinners } from "../mod.ts";
 
 // Just a function to async sleep
 function sleep(ms: number) {
@@ -6,7 +6,11 @@ function sleep(ms: number) {
 }
 
 // Create a spinner instance
-const kia = new Kia({ text: "Loading sun", color: "cyan" });
+const kia = new Kia({
+	text: "Loading sun",
+	color: "cyan",
+	spinner: Spinners.windows,
+});
 
 // Start the spinner
 kia.start();
