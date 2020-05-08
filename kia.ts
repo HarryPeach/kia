@@ -57,7 +57,7 @@ export class Kia {
 
 		if (text) await this.set(text);
 
-		if (!this.options.cursor) hideCursor(this.textEncoder);
+		if (!this.options.cursor) await hideCursor(this.textEncoder);
 
 		this.timeoutRef = setInterval(async () => {
 			this.currentFrame =
@@ -72,7 +72,7 @@ export class Kia {
 	async stop() {
 		clearInterval(this.timeoutRef);
 		await clearLine(this.textEncoder);
-		if (!this.options.cursor) showCursor(this.textEncoder);
+		if (!this.options.cursor) await showCursor(this.textEncoder);
 	}
 
 	/**
