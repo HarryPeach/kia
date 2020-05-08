@@ -2,7 +2,7 @@
 
 > Simple terminal spinners for Deno 🦕
 
-`Version 0.1.0`
+`Version 0.1.1`
 
 ![weather.ts example](https://user-images.githubusercontent.com/4750998/81313185-710ac900-907f-11ea-9735-d623559d08f6.gif)
 
