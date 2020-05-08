@@ -21,56 +21,45 @@ export type Color =
  * Converts the Kia color type to the Deno color functions
  * @param color The color string
  */
-export const colorise = (color: Color): Function => {
-	let map = {
-		black: Colors.black,
-		red: Colors.red,
-		green: Colors.green,
-		yellow: Colors.yellow,
-		blue: Colors.blue,
-		magenta: Colors.magenta,
-		cyan: Colors.cyan,
-		white: Colors.white,
-		gray: Colors.gray,
-	};
-	return map[color];
-};
+export function colorise(color: Color) {
+	return Colors[color];
+}
 
 /**
  * Overwrites text on the current line
  * @param encoder A TextEncoder object
  * @param text The text to be written
  */
-export const writeLine = async (
+export async function writeLine(
 	encoder: TextEncoder,
 	text: string,
 	indent?: number
-) => {
+) {
 	await Deno.stdout.write(
 		encoder.encode(`\r${indent ? ESC + indent + "C" : ""}${text}`)
 	);
-};
+}
 
 /**
  * Clears the line and performs a carriage return
  * @param encoder A TextEncoder object
  */
-export const clearLine = async (encoder: TextEncoder) => {
+export async function clearLine(encoder: TextEncoder) {
 	await Deno.stdout.write(encoder.encode(ESC + "2K\r"));
-};
+}
 
 /**
  * Hides the terminal cursor
  * @param encoder A TextEncoder object
  */
-export const hideCursor = async (encoder: TextEncoder) => {
+export async function hideCursor(encoder: TextEncoder) {
 	await Deno.stdout.write(encoder.encode(ESC + "?25l"));
-};
+}
 
 /**
  * Shows the terminal cursor
  * @param encoder A TextEncoder object
  */
-export const showCursor = async (encoder: TextEncoder) => {
+export async function showCursor(encoder: TextEncoder) {
 	await Deno.stdout.write(encoder.encode(ESC + "?25h"));
-};
+}

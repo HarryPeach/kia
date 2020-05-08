@@ -1,4 +1,4 @@
-import { Spinner, SPINNERS } from "./spinners.ts";
+import { Spinner, Spinners } from "./spinners.ts";
 import {
 	writeLine,
 	colorise,
@@ -23,7 +23,7 @@ export class Kia {
 	private options: Options = {
 		text: "",
 		color: "white",
-		spinner: Deno.build.os === "windows" ? SPINNERS.windows : SPINNERS.dots,
+		spinner: Deno.build.os === "windows" ? Spinners.windows : Spinners.dots,
 		prefixText: "",
 		indent: 0,
 		cursor: false,
