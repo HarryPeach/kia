@@ -51,6 +51,26 @@ export const writeLine = async (
 	);
 };
 
+/**
+ * Clears the line and performs a carriage return
+ * @param encoder A TextEncoder object
+ */
 export const clearLine = async (encoder: TextEncoder) => {
-	await Deno.stdout.write(encoder.encode(ESC + "2K"));
+	await Deno.stdout.write(encoder.encode(ESC + "2K\r"));
+};
+
+/**
+ * Hides the terminal cursor
+ * @param encoder A TextEncoder object
+ */
+export const hideCursor = async (encoder: TextEncoder) => {
+	await Deno.stdout.write(encoder.encode(ESC + "?25l"));
+};
+
+/**
+ * Shows the terminal cursor
+ * @param encoder A TextEncoder object
+ */
+export const showCursor = async (encoder: TextEncoder) => {
+	await Deno.stdout.write(encoder.encode(ESC + "?25h"));
 };

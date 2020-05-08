@@ -43,18 +43,21 @@ You can pass any of the following options to the kia context:
 ##### text
 
 Type: String
+Default: ""
 
 The text to display after the spinner
 
 ##### color
 
 Type: [Color](https://github.com/HarryPeach/kia/blob/8fb27cbd0bb4ef08ad26124d4a6e4f2ba2dc0c5c/util.ts#L6)
+Default: "white"
 
 The color for the spinner to be. Uses the color type in util.ts, which maps to the Deno standard colors.
 
 ##### spinner
 
 Type: [Spinner](https://github.com/HarryPeach/kia/blob/8fb27cbd0bb4ef08ad26124d4a6e4f2ba2dc0c5c/spinners.ts#L1)
+Default: Dependent on OS (See below)
 
 The spinner that the Kia instance should use. There are spinners provided in `spinners.ts` or you can provide it with an object like so:
 
@@ -72,8 +75,16 @@ Spinners can also be imported from anywhere as long as they follow this format. 
 ##### indent
 
 Type: number
+Default: 0
 
 The level of indentation of the spinner in spaces
+
+##### cursor
+
+Type: boolean
+Default: false
+
+Whether or not to display a cursor when the spinner is active
 
 ### Instance
 

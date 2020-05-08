@@ -1,5 +1,12 @@
 import { Spinner, SPINNERS } from "./spinners.ts";
-import { writeLine, colorise, Color, clearLine } from "./util.ts";
+import {
+	writeLine,
+	colorise,
+	Color,
+	clearLine,
+	showCursor,
+	hideCursor,
+} from "./util.ts";
 import {
 	bold,
 	green,
@@ -14,6 +21,7 @@ export interface Options {
 	spinner: Spinner;
 	prefixText: string;
 	indent: number;
+	cursor: boolean;
 }
 type InputOptions = Partial<Options>;
 
@@ -24,6 +32,7 @@ export class Kia {
 		spinner: Deno.build.os === "windows" ? SPINNERS.windows : SPINNERS.dots,
 		prefixText: "",
 		indent: 0,
+		cursor: false,
 	};
 
 	private timeoutRef: any;
@@ -51,9 +60,11 @@ export class Kia {
 	async start(text?: string) {
 		if (this.spinning) return;
 		this.spinning = true;
-		if (text) {
-			await this.set(text);
-		}
+
+		if (text) await this.set(text);
+
+		if (!this.options.cursor) hideCursor(this.textEncoder);
+
 		this.timeoutRef = setInterval(async () => {
 			this.currentFrame =
 				(this.currentFrame + 1) % this.options.spinner.frames.length;
@@ -67,6 +78,7 @@ export class Kia {
 	async stop() {
 		clearInterval(this.timeoutRef);
 		await clearLine(this.textEncoder);
+		if (!this.options.cursor) showCursor(this.textEncoder);
 	}
 
 	/**
@@ -75,8 +87,9 @@ export class Kia {
 	 * @param flair The icon to prepend the message
 	 */
 	async stopWithFlair(text: string = this.options.text, flair: string) {
-		clearInterval(this.timeoutRef);
-		await clearLine(this.textEncoder);
+		// clearInterval(this.timeoutRef);
+		// await clearLine(this.textEncoder);
+		await this.stop();
 		await writeLine(
 			this.textEncoder,
 			`${flair} ${text}`,
