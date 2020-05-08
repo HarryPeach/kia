@@ -126,3 +126,13 @@ Stops the spinner, and returns a message with the current text or the provided `
 #### .stopWithFlair(text, flair)
 
 Stops the spinner, and returns a message with the current text or the provided `text` as well as the preceding flair/icon.
+
+### Promise(action, text)
+
+### Promise(action, options)
+
+Starts a spinner for a promise. The spinner is stopped with `.succeed()` if the promise fulfills or with `.fail()` if it rejects. Returns the spinner instance.
+
+#### action
+
+Type: Promise

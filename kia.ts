@@ -153,3 +153,22 @@ export class Kia {
 		);
 	}
 }
+
+/**
+ * Starts a spinner for a promise
+ */
+export const Promise = (action: Function, options: InputOptions) => {
+	const kia = new Kia(options);
+	kia.start();
+
+	(async () => {
+		try {
+			await action();
+			kia.succeed();
+		} catch (_) {
+			kia.fail();
+		}
+	})();
+
+	return kia;
+};
