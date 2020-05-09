@@ -19,7 +19,7 @@ export interface Options {
 }
 type InputOptions = Partial<Options>;
 
-export class Kia {
+export default class Kia {
 	private options: Options = {
 		text: "",
 		color: "white",
@@ -45,6 +45,7 @@ export class Kia {
 			};
 		}
 		Object.assign(this.options, options);
+		return this;
 	}
 
 	/**
@@ -57,13 +58,14 @@ export class Kia {
 
 		if (text) await this.set(text);
 
-		if (!this.options.cursor) hideCursor(this.textEncoder);
+		if (!this.options.cursor) await hideCursor(this.textEncoder);
 
 		this.timeoutRef = setInterval(async () => {
 			this.currentFrame =
 				(this.currentFrame + 1) % this.options.spinner.frames.length;
 			await this.render();
 		}, this.options.spinner.interval);
+		return this;
 	}
 
 	/**
@@ -72,7 +74,8 @@ export class Kia {
 	async stop() {
 		clearInterval(this.timeoutRef);
 		await clearLine(this.textEncoder);
-		if (!this.options.cursor) showCursor(this.textEncoder);
+		if (!this.options.cursor) await showCursor(this.textEncoder);
+		return this;
 	}
 
 	/**
@@ -81,16 +84,14 @@ export class Kia {
 	 * @param flair The icon to prepend the message
 	 */
 	async stopWithFlair(text: string = this.options.text, flair: string) {
-		// clearInterval(this.timeoutRef);
-		// await clearLine(this.textEncoder);
 		await this.stop();
 		await writeLine(
 			this.textEncoder,
 			`${flair} ${text}`,
 			this.options.indent
 		);
-		console.log();
 		this.spinning = false;
+		return this;
 	}
 
 	/**
@@ -100,7 +101,7 @@ export class Kia {
 	 * @param text The message to be shown when stopped
 	 */
 	async succeed(text: string = this.options.text) {
-		await this.stopWithFlair(text, Colors.bold(Colors.green("√")));
+		return await this.stopWithFlair(text, Colors.bold(Colors.green("√")));
 	}
 
 	/**
@@ -110,7 +111,7 @@ export class Kia {
 	 * @param text The message to be shown when stopped
 	 */
 	async fail(text: string = this.options.text) {
-		await this.stopWithFlair(text, Colors.bold(Colors.red("X")));
+		return await this.stopWithFlair(text, Colors.bold(Colors.red("X")));
 	}
 
 	/**
@@ -120,7 +121,7 @@ export class Kia {
 	 * @param text The message to be shown when stopped
 	 */
 	async warn(text: string = this.options.text) {
-		await this.stopWithFlair(text, Colors.bold(Colors.yellow("!")));
+		return await this.stopWithFlair(text, Colors.bold(Colors.yellow("!")));
 	}
 
 	/**
@@ -130,7 +131,7 @@ export class Kia {
 	 * @param text The message to be shown when stopped
 	 */
 	async info(text: string = this.options.text) {
-		await this.stopWithFlair(text, Colors.bold(Colors.blue("i")));
+		return await this.stopWithFlair(text, Colors.bold(Colors.blue("i")));
 	}
 
 	/**
@@ -153,3 +154,22 @@ export class Kia {
 		);
 	}
 }
+
+/**
+ * Starts a spinner for a promise
+ */
+export const forPromise = (action: Function, options: InputOptions) => {
+	const kia = new Kia(options);
+	kia.start();
+
+	(async () => {
+		try {
+			await action();
+			kia.succeed();
+		} catch (_) {
+			kia.fail();
+		}
+	})();
+
+	return kia;
+};

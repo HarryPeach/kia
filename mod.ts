@@ -1,5 +1,6 @@
-import { Kia } from "./kia.ts";
+// import { Kia, Promise } from "./kia.ts";
+import Kia, { forPromise } from "./kia.ts";
 import { Spinners } from "./spinners.ts";
 
-export { Spinners };
+export { Spinners, forPromise };
 export default Kia;
