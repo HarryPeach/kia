@@ -98,15 +98,15 @@ Whether or not to display a cursor when the spinner is active
 
 #### .start(text?)
 
-Starts the spinner. Optionally sets the text at the same time.
+Starts the spinner. Optionally sets the text at the same time. Returns Kia instance.
 
 #### .stop()
 
-Stops the spinner and clears the line.
+Stops the spinner and clears the line. Returns Kia instance.
 
 #### .set(options)
 
-Allows you to change the spinners options.
+Allows you to change the spinners options. Returns Kia instance.
 
 ```typescript
 const kia = new Kia("Hello");
@@ -121,11 +121,11 @@ await kia.set({ text: "Goodbye", color: "Red" });
 
 #### .info(text?)
 
-Stops the spinner, and returns a message with the current text or the provided `text` as well as an icon indicating status. Wraps around `stopWithFlair()`
+Stops the spinner, and returns a message with the current text or the provided `text` as well as an icon indicating status. Wraps around `stopWithFlair()`. Returns Kia instance.
 
 #### .stopWithFlair(text, flair)
 
-Stops the spinner, and returns a message with the current text or the provided `text` as well as the preceding flair/icon.
+Stops the spinner, and returns a message with the current text or the provided `text` as well as the preceding flair/icon. Returns Kia instance.
 
 ### forPromise(action, text)
 

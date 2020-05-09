@@ -45,6 +45,7 @@ export default class Kia {
 			};
 		}
 		Object.assign(this.options, options);
+		return this;
 	}
 
 	/**
@@ -64,6 +65,7 @@ export default class Kia {
 				(this.currentFrame + 1) % this.options.spinner.frames.length;
 			await this.render();
 		}, this.options.spinner.interval);
+		return this;
 	}
 
 	/**
@@ -73,6 +75,7 @@ export default class Kia {
 		clearInterval(this.timeoutRef);
 		await clearLine(this.textEncoder);
 		if (!this.options.cursor) await showCursor(this.textEncoder);
+		return this;
 	}
 
 	/**
@@ -81,8 +84,6 @@ export default class Kia {
 	 * @param flair The icon to prepend the message
 	 */
 	async stopWithFlair(text: string = this.options.text, flair: string) {
-		// clearInterval(this.timeoutRef);
-		// await clearLine(this.textEncoder);
 		await this.stop();
 		await writeLine(
 			this.textEncoder,
@@ -91,6 +92,7 @@ export default class Kia {
 		);
 		console.log();
 		this.spinning = false;
+		return this;
 	}
 
 	/**
@@ -100,7 +102,7 @@ export default class Kia {
 	 * @param text The message to be shown when stopped
 	 */
 	async succeed(text: string = this.options.text) {
-		await this.stopWithFlair(text, Colors.bold(Colors.green("√")));
+		return await this.stopWithFlair(text, Colors.bold(Colors.green("√")));
 	}
 
 	/**
@@ -110,7 +112,7 @@ export default class Kia {
 	 * @param text The message to be shown when stopped
 	 */
 	async fail(text: string = this.options.text) {
-		await this.stopWithFlair(text, Colors.bold(Colors.red("X")));
+		return await this.stopWithFlair(text, Colors.bold(Colors.red("X")));
 	}
 
 	/**
@@ -120,7 +122,7 @@ export default class Kia {
 	 * @param text The message to be shown when stopped
 	 */
 	async warn(text: string = this.options.text) {
-		await this.stopWithFlair(text, Colors.bold(Colors.yellow("!")));
+		return await this.stopWithFlair(text, Colors.bold(Colors.yellow("!")));
 	}
 
 	/**
@@ -130,7 +132,7 @@ export default class Kia {
 	 * @param text The message to be shown when stopped
 	 */
 	async info(text: string = this.options.text) {
-		await this.stopWithFlair(text, Colors.bold(Colors.blue("i")));
+		return await this.stopWithFlair(text, Colors.bold(Colors.blue("i")));
 	}
 
 	/**
