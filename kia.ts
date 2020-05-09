@@ -19,7 +19,7 @@ export interface Options {
 }
 type InputOptions = Partial<Options>;
 
-export class Kia {
+export default class Kia {
 	private options: Options = {
 		text: "",
 		color: "white",
@@ -157,7 +157,7 @@ export class Kia {
 /**
  * Starts a spinner for a promise
  */
-export const Promise = (action: Function, options: InputOptions) => {
+export const forPromise = (action: Function, options: InputOptions) => {
 	const kia = new Kia(options);
 	kia.start();
 

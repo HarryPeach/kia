@@ -2,7 +2,7 @@
 
 > Simple terminal spinners for Deno 🦕
 
-`Version 0.1.1`
+`Version 0.2.0`
 
 ![weather.ts example](https://user-images.githubusercontent.com/4750998/81313185-710ac900-907f-11ea-9735-d623559d08f6.gif)
 
@@ -127,9 +127,9 @@ Stops the spinner, and returns a message with the current text or the provided `
 
 Stops the spinner, and returns a message with the current text or the provided `text` as well as the preceding flair/icon.
 
-### Promise(action, text)
+### forPromise(action, text)
 
-### Promise(action, options)
+### forPromise(action, options)
 
 Starts a spinner for a promise. The spinner is stopped with `.succeed()` if the promise fulfills or with `.fail()` if it rejects. Returns the spinner instance.
 
