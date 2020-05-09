@@ -90,7 +90,6 @@ export default class Kia {
 			`${flair} ${text}`,
 			this.options.indent
 		);
-		console.log();
 		this.spinning = false;
 		return this;
 	}
