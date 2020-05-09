@@ -12,7 +12,7 @@
 ## Usage
 
 ```typescript
-import { Kia } from "./kia.ts";
+import Kia from "./mod.ts";
 
 const kia = new Kia("Hello");
 await kia.start();
@@ -130,6 +130,17 @@ Stops the spinner, and returns a message with the current text or the provided `
 ### forPromise(action, text)
 
 ### forPromise(action, options)
+
+```typescript
+import { forPromise } from "./mod.ts";
+
+forPromise(
+	async () => {
+		await yourAsyncAction();
+	},
+	{ text: name }
+);
+```
 
 Starts a spinner for a promise. The spinner is stopped with `.succeed()` if the promise fulfills or with `.fail()` if it rejects. Returns the spinner instance.
 
