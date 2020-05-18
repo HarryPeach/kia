@@ -75,6 +75,7 @@ export default class Kia {
 		clearInterval(this.timeoutRef);
 		await clearLine(this.textEncoder);
 		if (!this.options.cursor) await showCursor(this.textEncoder);
+		this.spinning = false;
 		return this;
 	}
 
@@ -90,7 +91,6 @@ export default class Kia {
 			`${flair} ${text}`,
 			this.options.indent
 		);
-		this.spinning = false;
 		return this;
 	}
 
