@@ -12,7 +12,7 @@
 ## Usage
 
 ```typescript
-import Kia from "./mod.ts";
+import Kia from "https://deno.land/x/kia@0.2.0/mod.ts";
 
 const kia = new Kia("Hello");
 await kia.start();
