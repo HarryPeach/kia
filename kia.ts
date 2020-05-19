@@ -47,6 +47,7 @@ export default class Kia {
 			};
 		}
 		Object.assign(this.options, options);
+		await this.render();
 		return this;
 	}
 
