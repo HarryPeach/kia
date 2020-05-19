@@ -9,7 +9,8 @@ function sleep(ms: number) {
 const kia = new Kia({
 	text: "Loading sun",
 	color: "cyan",
-	spinner: Spinners.windows,
+	indent: 2,
+	spinner: Spinners.dots,
 });
 
 // Start the spinner
