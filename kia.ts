@@ -124,7 +124,7 @@ export default class Kia {
 		await writeLine(
 			this.options.resource,
 			this.textEncoder,
-			`${flair} ${text}`,
+			`${flair} ${text}\n`,
 			this.options.indent
 		);
 		return this;
