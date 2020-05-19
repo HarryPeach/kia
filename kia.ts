@@ -78,6 +78,31 @@ export default class Kia {
 	}
 
 	/**
+	 * Stops the spinner and holds it in a static state. Returns the instance.
+	 * @param options The options to apply after stopping the spinner
+	 */
+	async stopAndPersist(options?: InputOptions) {
+		clearInterval(this.timeoutRef);
+		this.spinning = false;
+		if (options) await this.set(options);
+		return this;
+	}
+
+	/**
+	 * Renders the next frame of the spinner when it is stopped.
+	 */
+	async renderNextFrame() {
+		if (this.spinning)
+			throw new Error(
+				"You cannot manually render frames when the spinner is running, run stopAndPersist() first."
+			);
+		this.currentFrame =
+			(this.currentFrame + 1) % this.options.spinner.frames.length;
+		await this.render();
+		return this;
+	}
+
+	/**
 	 * Stops the spinner and clears its line
 	 */
 	async stop() {

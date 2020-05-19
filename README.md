@@ -135,6 +135,14 @@ Stops the spinner, and returns a message with the current text or the provided `
 
 Stops the spinner, and returns a message with the current text or the provided `text` as well as the preceding flair/icon. Returns Kia instance.
 
+#### .stopAndPersist(options)
+
+Stops the spinner and holds it in a static state. Returns the instance.
+
+#### .renderNextFrame()
+
+Renders the next frame of the spinner when it is stopped (i.e. can only be run after .stopAndPersist()).
+
 ### forPromise(action, text)
 
 ### forPromise(action, options)
