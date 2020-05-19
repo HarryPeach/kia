@@ -37,7 +37,12 @@ export default class Kia {
 	private textEncoder = new TextEncoder();
 
 	constructor(options: InputOptions | string) {
-		this.set(options);
+		if (typeof options === "string") {
+			options = {
+				text: options,
+			};
+		}
+		Object.assign(this.options, options);
 	}
 
 	public async set(options: InputOptions | string) {
