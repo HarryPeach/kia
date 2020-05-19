@@ -94,6 +94,14 @@ Default: false
 
 Whether or not to display a cursor when the spinner is active
 
+##### resource
+
+Type: number
+
+Default: 1
+
+The resource to output to, default is stdout. The list of resources can be found with `Deno.resources()`
+
 ### Instance
 
 #### .start(text?)

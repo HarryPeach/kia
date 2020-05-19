@@ -31,11 +31,13 @@ export function colorise(color: Color) {
  * @param text The text to be written
  */
 export async function writeLine(
+	rid: number,
 	encoder: TextEncoder,
 	text: string,
 	indent?: number
 ) {
-	await Deno.stdout.write(
+	await Deno.write(
+		rid,
 		encoder.encode(`\r${indent ? ESC + indent + "C" : ""}${text}`)
 	);
 }
@@ -44,22 +46,22 @@ export async function writeLine(
  * Clears the line and performs a carriage return
  * @param encoder A TextEncoder object
  */
-export async function clearLine(encoder: TextEncoder) {
-	await Deno.stdout.write(encoder.encode(ESC + "2K\r"));
+export async function clearLine(rid: number, encoder: TextEncoder) {
+	await Deno.write(rid, encoder.encode(ESC + "2K\r"));
 }
 
 /**
  * Hides the terminal cursor
  * @param encoder A TextEncoder object
  */
-export async function hideCursor(encoder: TextEncoder) {
-	await Deno.stdout.write(encoder.encode(ESC + "?25l"));
+export async function hideCursor(rid: number, encoder: TextEncoder) {
+	await Deno.write(rid, encoder.encode(ESC + "?25l"));
 }
 
 /**
  * Shows the terminal cursor
  * @param encoder A TextEncoder object
  */
-export async function showCursor(encoder: TextEncoder) {
-	await Deno.stdout.write(encoder.encode(ESC + "?25h"));
+export async function showCursor(rid: number, encoder: TextEncoder) {
+	await Deno.write(rid, encoder.encode(ESC + "?25h"));
 }

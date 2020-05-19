@@ -16,6 +16,7 @@ export interface Options {
 	prefixText: string;
 	indent: number;
 	cursor: boolean;
+	resource: number;
 }
 type InputOptions = Partial<Options>;
 
@@ -27,6 +28,7 @@ export default class Kia {
 		prefixText: "",
 		indent: 0,
 		cursor: false,
+		resource: 1,
 	};
 
 	private timeoutRef: any;
@@ -58,7 +60,8 @@ export default class Kia {
 
 		if (text) await this.set(text);
 
-		if (!this.options.cursor) await hideCursor(this.textEncoder);
+		if (!this.options.cursor)
+			await hideCursor(this.options.resource, this.textEncoder);
 
 		this.timeoutRef = setInterval(async () => {
 			this.currentFrame =
@@ -73,8 +76,9 @@ export default class Kia {
 	 */
 	async stop() {
 		clearInterval(this.timeoutRef);
-		await clearLine(this.textEncoder);
-		if (!this.options.cursor) await showCursor(this.textEncoder);
+		await clearLine(this.options.resource, this.textEncoder);
+		if (!this.options.cursor)
+			await showCursor(this.options.resource, this.textEncoder);
 		this.spinning = false;
 		return this;
 	}
@@ -87,6 +91,7 @@ export default class Kia {
 	async stopWithFlair(text: string = this.options.text, flair: string) {
 		await this.stop();
 		await writeLine(
+			this.options.resource,
 			this.textEncoder,
 			`${flair} ${text}`,
 			this.options.indent
@@ -146,6 +151,7 @@ export default class Kia {
 	 */
 	private async render() {
 		await writeLine(
+			this.options.resource,
 			this.textEncoder,
 			`${this.options.prefixText}${colorise(this.options.color)(
 				this.options.spinner.frames[this.currentFrame]
