@@ -109,8 +109,10 @@ Deno.test("set() changes the kia options", async () => {
 	await kia?.renderNextFrame();
 
 	expect(
-		new TextDecoder().decode(await Deno.readFile(testFileName))
-	).toContain(SEARCH_KEY);
+		new TextDecoder()
+			.decode(await Deno.readFile(testFileName))
+			.includes(SEARCH_KEY)
+	).toBe(true);
 
 	await cleanupTestFile(testFile, testFileName);
 });
