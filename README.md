@@ -4,6 +4,8 @@
 
 `Version 0.3.0`
 
+![](https://github.com/HarryPeach/kia/workflows/CI/badge.svg)
+
 ![weather.ts example](https://user-images.githubusercontent.com/4750998/81313185-710ac900-907f-11ea-9735-d623559d08f6.gif)
 
 > Kia is based on, and has much of the features of, [ora](https://www.npmjs.com/package/ora).

@@ -26,4 +26,4 @@ jobs:
               uses: denolib/setup-deno@v1.3.0
 
             - name: Run Deno Tests
-              run: deno test
+              run: deno test -A

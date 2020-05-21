@@ -49,6 +49,7 @@ Deno.test("stopAndPersist stops the spinner output", async () => {
 	}).start();
 	await kia?.stopAndPersist();
 
+	// Wait and check that there are no extra prints
 	const sizeAfterStop = (await Deno.stat(testFileName)).size;
 	await sleep(1000);
 	expect(kia?.isSpinning()).toEqual(false);
@@ -92,3 +93,24 @@ Deno.test(
 		await kia?.stop();
 	}
 );
+
+Deno.test("set() changes the kia options", async () => {
+	const [testFile, testFileName] = await setupTestFile();
+	const SEARCH_KEY = "XXX";
+
+	const kia = await new Kia({
+		text: "sample",
+		resource: testFile.rid,
+	}).start();
+
+	// Change the text to the search key and then check if it has actually changed
+	await kia?.stopAndPersist();
+	await kia?.set({ text: SEARCH_KEY });
+	await kia?.renderNextFrame();
+
+	expect(
+		new TextDecoder().decode(await Deno.readFile(testFileName))
+	).toContain(SEARCH_KEY);
+
+	await cleanupTestFile(testFile, testFileName);
+});
