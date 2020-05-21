@@ -14,7 +14,7 @@ const kia = new Kia({
 });
 
 // Start the spinner
-kia.start();
+await kia.start();
 await sleep(2000);
 
 // Change the spinner options
@@ -23,17 +23,17 @@ await sleep(1000);
 // Finish spinning successfully
 await kia.succeed("Loaded sun");
 
-kia.start("Loading clouds");
+await kia.start("Loading clouds");
 await sleep(2000);
 // Finish spinning with a warning
 await kia.warn("Some clouds loaded");
 
-kia.start("Getting the temperature");
+await kia.start("Getting the temperature");
 await sleep(2000);
 // Finish spinning with an info message
 await kia.info("Nice and warm!");
 
-kia.start("Loading rain");
+await kia.start("Loading rain");
 await sleep(2000);
 // Finish spinning with a failure message
 await kia.fail("Rain could not be loaded!");
