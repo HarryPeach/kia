@@ -45,7 +45,7 @@ Deno.test("stopAndPersist stops the spinner output", async () => {
 
 	const kia = await new Kia({
 		text: "",
-		resource: testFile.rid,
+		resource: testFile,
 	}).start();
 	await kia?.stopAndPersist();
 
@@ -63,7 +63,7 @@ Deno.test("renderNextFrame() advances the spinner", async () => {
 
 	const kia = await new Kia({
 		text: "",
-		resource: testFile.rid,
+		resource: testFile,
 	}).start();
 	await kia?.stopAndPersist();
 
@@ -100,7 +100,7 @@ Deno.test("set() changes the kia options", async () => {
 
 	const kia = await new Kia({
 		text: "sample",
-		resource: testFile.rid,
+		resource: testFile,
 	}).start();
 
 	// Change the text to the search key and then check if it has actually changed

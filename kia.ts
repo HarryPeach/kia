@@ -16,7 +16,7 @@ export interface Options {
 	prefixText: string;
 	indent: number;
 	cursor: boolean;
-	resource: number;
+	writer: Deno.Writer;
 }
 type InputOptions = Partial<Options>;
 
@@ -28,7 +28,7 @@ export default class Kia {
 		prefixText: "",
 		indent: 0,
 		cursor: false,
-		resource: 1,
+		writer: Deno.stdout,
 	};
 
 	private timeoutRef: any;
@@ -52,7 +52,6 @@ export default class Kia {
 			};
 		}
 		Object.assign(this.options, options);
-		await this.render();
 		return this;
 	}
 
@@ -61,13 +60,15 @@ export default class Kia {
 	 * @param text The text to display after the spinner
 	 */
 	async start(text?: string) {
-		if (this.spinning) return;
+		if (this.spinning) {
+			await this.stop();
+		}
 		this.spinning = true;
 
 		if (text) await this.set(text);
 
 		if (!this.options.cursor)
-			await hideCursor(this.options.resource, this.textEncoder);
+			await hideCursor(this.options.writer, this.textEncoder);
 
 		this.timeoutRef = setInterval(async () => {
 			this.currentFrame =
@@ -107,9 +108,9 @@ export default class Kia {
 	 */
 	async stop() {
 		clearInterval(this.timeoutRef);
-		await clearLine(this.options.resource, this.textEncoder);
+		await clearLine(this.options.writer, this.textEncoder);
 		if (!this.options.cursor)
-			await showCursor(this.options.resource, this.textEncoder);
+			await showCursor(this.options.writer, this.textEncoder);
 		this.spinning = false;
 		return this;
 	}
@@ -122,7 +123,7 @@ export default class Kia {
 	async stopWithFlair(text: string = this.options.text, flair: string) {
 		await this.stop();
 		await writeLine(
-			this.options.resource,
+			this.options.writer,
 			this.textEncoder,
 			`${flair} ${text}\n`,
 			this.options.indent
@@ -181,10 +182,11 @@ export default class Kia {
 	 * Renders each frame of the spinner
 	 */
 	private async render() {
+		const colorFunc = colorise(this.options.color);
 		await writeLine(
-			this.options.resource,
+			this.options.writer,
 			this.textEncoder,
-			`${this.options.prefixText}${colorise(this.options.color)(
+			`${this.options.prefixText}${colorFunc(
 				this.options.spinner.frames[this.currentFrame]
 			)} ${this.options.text}`,
 			this.options.indent

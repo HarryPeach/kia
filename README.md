@@ -96,13 +96,13 @@ Default: false
 
 Whether or not to display a cursor when the spinner is active
 
-##### resource
+##### writer
 
-Type: number
+Type: Deno.Writer
 
-Default: 1
+Default: Deno.stdout
 
-The resource to output to, default is stdout. The list of resources can be found with `Deno.resources()`
+The resource to output to. This can be anything that uses the Writer interface including stdout, stderr, and files.
 
 ### Instance
 
