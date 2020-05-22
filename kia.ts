@@ -36,7 +36,8 @@ export default class Kia {
 	private currentFrame: number = 0;
 	private textEncoder = new TextEncoder();
 
-	constructor(options: InputOptions | string) {
+	constructor(options?: InputOptions | string) {
+		if (!options) return;
 		if (typeof options === "string") {
 			options = {
 				text: options,

@@ -26,6 +26,8 @@ More thorough examples are available in the [examples folder](https://github.com
 
 ## API
 
+### kia()
+
 ### kia(text)
 
 ### kia(options)
