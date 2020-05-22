@@ -1,19 +1,12 @@
 import Kia from "./mod.ts";
 import { assertThrowsAsync } from "https://deno.land/std@0.51.0/testing/asserts.ts";
 import { expect } from "https://deno.land/x/expect/mod.ts";
-
-async function setupTestFile(): Promise<[Deno.File, string]> {
-	const fileLocation = await Deno.makeTempFile({
-		prefix: "kia.test.",
-	});
-	return [
-		await Deno.open(fileLocation, {
-			read: true,
-			write: true,
-			create: true,
-		}),
-		fileLocation,
-	];
+class TestWriter implements Deno.Writer {
+	buffer: string[] = [];
+	write(p: Uint8Array): Promise<number> {
+		this.buffer.push(new TextDecoder().decode(p));
+		return Promise.resolve(p.length);
+	}
 }
 
 async function cleanupTestFile(file: Deno.File, fileName: string) {
@@ -41,46 +34,42 @@ Deno.test("spinner !isSpinning when not running", async () => {
 });
 
 Deno.test("stopAndPersist stops the spinner output", async () => {
-	const [testFile, testFileName] = await setupTestFile();
+	// TODO: Rewrite this with TestWriter
+	const testWriter = new TestWriter();
 
 	const kia = await new Kia({
 		text: "",
-		resource: testFile,
+		writer: testWriter,
 	}).start();
 	await kia?.stopAndPersist();
 
 	// Wait and check that there are no extra prints
-	const sizeAfterStop = (await Deno.stat(testFileName)).size;
+	const sizeAfterStop = testWriter.buffer.length;
 	await sleep(1000);
 	expect(kia?.isSpinning()).toEqual(false);
-	expect(sizeAfterStop).toEqual((await Deno.stat(testFileName)).size);
-
-	await cleanupTestFile(testFile, testFileName);
+	expect(sizeAfterStop).toEqual(testWriter.buffer.length);
 });
 
 Deno.test("renderNextFrame() advances the spinner", async () => {
-	const [testFile, testFileName] = await setupTestFile();
-
+	const testWriter = new TestWriter();
 	const kia = await new Kia({
 		text: "",
-		resource: testFile,
+		writer: testWriter,
 	}).start();
 	await kia?.stopAndPersist();
 
-	const sizeAfterStop = (await Deno.stat(testFileName)).size;
+	const sizeAfterStop = testWriter.buffer.length;
 	await kia?.renderNextFrame();
 
 	// Check that the frame is advancing
-	const sizeAfterNextStop = (await Deno.stat(testFileName)).size;
+	const sizeAfterNextStop = testWriter.buffer.length;
 	expect(sizeAfterStop).toBeLessThan(sizeAfterNextStop);
 
 	// Check that each frame is only advancing once
 	await kia?.renderNextFrame();
 	expect(sizeAfterNextStop - sizeAfterStop).toEqual(
-		(await Deno.stat(testFileName)).size - sizeAfterNextStop
+		testWriter.buffer.length - sizeAfterNextStop
 	);
-
-	await cleanupTestFile(testFile, testFileName);
 });
 
 Deno.test(
@@ -95,12 +84,12 @@ Deno.test(
 );
 
 Deno.test("set() changes the kia options", async () => {
-	const [testFile, testFileName] = await setupTestFile();
+	const testWriter = new TestWriter();
 	const SEARCH_KEY = "XXX";
 
 	const kia = await new Kia({
 		text: "sample",
-		resource: testFile,
+		writer: testWriter,
 	}).start();
 
 	// Change the text to the search key and then check if it has actually changed
@@ -108,11 +97,5 @@ Deno.test("set() changes the kia options", async () => {
 	await kia?.set({ text: SEARCH_KEY });
 	await kia?.renderNextFrame();
 
-	expect(
-		new TextDecoder()
-			.decode(await Deno.readFile(testFileName))
-			.includes(SEARCH_KEY)
-	).toBe(true);
-
-	await cleanupTestFile(testFile, testFileName);
+	expect(testWriter.buffer[1].includes(SEARCH_KEY)).toBe(true);
 });
