@@ -85,5 +85,12 @@ Deno.test("set() changes the kia options", () => {
 	kia.set({ text: SEARCH_KEY });
 	kia.renderNextFrame();
 
-	expect(testWriter.buffer[1].includes(SEARCH_KEY)).toBe(true);
+	let inArray = false;
+	testWriter.buffer.forEach((item) => {
+		if (item.includes(SEARCH_KEY)) {
+			inArray = true;
+		}
+	});
+
+	expect(inArray).toBe(true);
 });
