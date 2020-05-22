@@ -1,47 +1,38 @@
 import Kia from "./mod.ts";
-import { assertThrowsAsync } from "https://deno.land/std@0.51.0/testing/asserts.ts";
+import {
+	assertThrowsAsync,
+	assertThrows,
+} from "https://deno.land/std@0.51.0/testing/asserts.ts";
 import { expect } from "https://deno.land/x/expect/mod.ts";
-class TestWriter implements Deno.Writer {
+class TestWriter implements Deno.WriterSync {
 	buffer: string[] = [];
-	write(p: Uint8Array): Promise<number> {
+	writeSync(p: Uint8Array): number {
 		this.buffer.push(new TextDecoder().decode(p));
-		return Promise.resolve(p.length);
+		return p.length;
 	}
-}
-
-async function cleanupTestFile(file: Deno.File, fileName: string) {
-	file.close();
-	Deno.remove(fileName);
 }
 
 function sleep(ms: number) {
 	return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-Deno.test("spinner isSpinning when running", async () => {
-	const kia = new Kia("");
-	await kia.start().then(() => {
-		expect(kia.isSpinning()).toEqual(true);
-	});
-	await kia.stop();
+Deno.test("spinner isSpinning when running", () => {
+	const kia = new Kia();
+	kia.start();
+	expect(kia.isSpinning()).toEqual(true);
+	kia.stop();
 });
 
-Deno.test("spinner !isSpinning when not running", async () => {
-	const kia = await new Kia("").start();
-	await kia?.stop().then(() => {
-		expect(kia.isSpinning()).toEqual(false);
-	});
+Deno.test("spinner !isSpinning when not running", () => {
+	const kia = new Kia().start();
+	kia.stop();
+	expect(kia.isSpinning()).toEqual(false);
 });
 
 Deno.test("stopAndPersist stops the spinner output", async () => {
-	// TODO: Rewrite this with TestWriter
 	const testWriter = new TestWriter();
-
-	const kia = await new Kia({
-		text: "",
-		writer: testWriter,
-	}).start();
-	await kia?.stopAndPersist();
+	const kia = new Kia({ text: "", writer: testWriter }).start();
+	kia?.stopAndPersist();
 
 	// Wait and check that there are no extra prints
 	const sizeAfterStop = testWriter.buffer.length;
@@ -50,52 +41,49 @@ Deno.test("stopAndPersist stops the spinner output", async () => {
 	expect(sizeAfterStop).toEqual(testWriter.buffer.length);
 });
 
-Deno.test("renderNextFrame() advances the spinner", async () => {
+Deno.test("renderNextFrame() advances the spinner", () => {
 	const testWriter = new TestWriter();
-	const kia = await new Kia({
+	const kia = new Kia({
 		text: "",
 		writer: testWriter,
 	}).start();
-	await kia?.stopAndPersist();
+	kia.stopAndPersist();
 
 	const sizeAfterStop = testWriter.buffer.length;
-	await kia?.renderNextFrame();
+	kia.renderNextFrame();
 
 	// Check that the frame is advancing
 	const sizeAfterNextStop = testWriter.buffer.length;
 	expect(sizeAfterStop).toBeLessThan(sizeAfterNextStop);
 
 	// Check that each frame is only advancing once
-	await kia?.renderNextFrame();
+	kia.renderNextFrame();
 	expect(sizeAfterNextStop - sizeAfterStop).toEqual(
 		testWriter.buffer.length - sizeAfterNextStop
 	);
 });
 
-Deno.test(
-	"check renderNextFrame can't be called if spinner is running",
-	async () => {
-		const kia = await new Kia("").start();
-		await assertThrowsAsync(async () => {
-			await kia?.renderNextFrame();
-		}, Error);
-		await kia?.stop();
-	}
-);
+Deno.test("check renderNextFrame can't be called if spinner is running", () => {
+	const kia = new Kia().start();
+	assertThrows(() => {
+		kia.renderNextFrame();
+	}, Error);
+	kia.stop();
+});
 
-Deno.test("set() changes the kia options", async () => {
+Deno.test("set() changes the kia options", () => {
 	const testWriter = new TestWriter();
 	const SEARCH_KEY = "XXX";
 
-	const kia = await new Kia({
+	const kia = new Kia({
 		text: "sample",
 		writer: testWriter,
 	}).start();
 
 	// Change the text to the search key and then check if it has actually changed
-	await kia?.stopAndPersist();
-	await kia?.set({ text: SEARCH_KEY });
-	await kia?.renderNextFrame();
+	kia.stopAndPersist();
+	kia.set({ text: SEARCH_KEY });
+	kia.renderNextFrame();
 
 	expect(testWriter.buffer[1].includes(SEARCH_KEY)).toBe(true);
 });

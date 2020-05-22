@@ -17,9 +17,9 @@
 import Kia from "https://deno.land/x/kia@0.3.0/mod.ts";
 
 const kia = new Kia("Hello");
-await kia.start();
+kia.start();
 // Some async action that'll take some time
-await kia.success("Action completed");
+kia.success("Action completed");
 ```
 
 More thorough examples are available in the [examples folder](https://github.com/HarryPeach/kia/tree/master/examples)
@@ -116,13 +116,15 @@ Starts the spinner. Optionally sets the text at the same time. Returns Kia insta
 
 Stops the spinner and clears the line. Returns Kia instance.
 
+#### .set(text)
+
 #### .set(options)
 
 Allows you to change the spinners options. Returns Kia instance.
 
 ```typescript
 const kia = new Kia("Hello");
-await kia.set({ text: "Goodbye", color: "Red" });
+kia.set({ text: "Goodbye", color: "Red" });
 ```
 
 #### .succeed(text?)

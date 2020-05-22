@@ -30,13 +30,13 @@ export function colorise(color: Color) {
  * @param encoder A TextEncoder object
  * @param text The text to be written
  */
-export async function writeLine(
-	writer: Deno.Writer,
+export function writeLine(
+	writer: Deno.WriterSync,
 	encoder: TextEncoder,
 	text: string,
 	indent?: number
 ) {
-	await Deno.writeAll(
+	Deno.writeAllSync(
 		writer,
 		encoder.encode(`\r${indent ? ESC + indent + "C" : ""}${text}`)
 	);
@@ -46,22 +46,22 @@ export async function writeLine(
  * Clears the line and performs a carriage return
  * @param encoder A TextEncoder object
  */
-export async function clearLine(writer: Deno.Writer, encoder: TextEncoder) {
-	await Deno.writeAll(writer, encoder.encode(ESC + "2K\r"));
+export function clearLine(writer: Deno.WriterSync, encoder: TextEncoder) {
+	Deno.writeAllSync(writer, encoder.encode(ESC + "2K\r"));
 }
 
 /**
  * Hides the terminal cursor
  * @param encoder A TextEncoder object
  */
-export async function hideCursor(writer: Deno.Writer, encoder: TextEncoder) {
-	await Deno.writeAll(writer, encoder.encode(ESC + "?25l"));
+export function hideCursor(writer: Deno.WriterSync, encoder: TextEncoder) {
+	Deno.writeAllSync(writer, encoder.encode(ESC + "?25l"));
 }
 
 /**
  * Shows the terminal cursor
  * @param encoder A TextEncoder object
  */
-export async function showCursor(writer: Deno.Writer, encoder: TextEncoder) {
-	await Deno.writeAll(writer, encoder.encode(ESC + "?25h"));
+export function showCursor(writer: Deno.WriterSync, encoder: TextEncoder) {
+	Deno.writeAllSync(writer, encoder.encode(ESC + "?25h"));
 }
