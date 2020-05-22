@@ -154,7 +154,7 @@ Renders the next frame of the spinner when it is stopped (i.e. can only be run a
 ### forPromise(action, options)
 
 ```typescript
-import { forPromise } from "./mod.ts";
+import { forPromise } from "https://deno.land/x/kia@0.3.0/mod.ts";
 
 forPromise(
 	async () => {
