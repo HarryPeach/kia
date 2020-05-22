@@ -16,6 +16,7 @@ export interface Options {
 	prefixText: string;
 	indent: number;
 	cursor: boolean;
+	writer: Deno.WriterSync;
 }
 type InputOptions = Partial<Options>;
 
@@ -27,6 +28,7 @@ export default class Kia {
 		prefixText: "",
 		indent: 0,
 		cursor: false,
+		writer: Deno.stdout,
 	};
 
 	private timeoutRef: any;
@@ -34,17 +36,25 @@ export default class Kia {
 	private currentFrame: number = 0;
 	private textEncoder = new TextEncoder();
 
-	constructor(options: InputOptions | string) {
-		this.set(options);
-	}
-
-	public async set(options: InputOptions | string) {
+	constructor(options?: InputOptions | string) {
+		if (!options) return;
 		if (typeof options === "string") {
 			options = {
 				text: options,
 			};
 		}
 		Object.assign(this.options, options);
+		this.render();
+	}
+
+	public set(options: InputOptions | string) {
+		if (typeof options === "string") {
+			options = {
+				text: options,
+			};
+		}
+		Object.assign(this.options, options);
+		this.render();
 		return this;
 	}
 
@@ -52,29 +62,59 @@ export default class Kia {
 	 * Starts the spinner
 	 * @param text The text to display after the spinner
 	 */
-	async start(text?: string) {
-		if (this.spinning) return;
+	start(text?: string) {
+		if (this.spinning) {
+			this.stop();
+		}
 		this.spinning = true;
 
-		if (text) await this.set(text);
+		if (text) this.set(text);
 
-		if (!this.options.cursor) await hideCursor(this.textEncoder);
+		if (!this.options.cursor)
+			hideCursor(this.options.writer, this.textEncoder);
 
-		this.timeoutRef = setInterval(async () => {
+		this.timeoutRef = setInterval(() => {
 			this.currentFrame =
 				(this.currentFrame + 1) % this.options.spinner.frames.length;
-			await this.render();
+			this.render();
 		}, this.options.spinner.interval);
+		return this;
+	}
+
+	/**
+	 * Stops the spinner and holds it in a static state. Returns the instance.
+	 * @param options The options to apply after stopping the spinner
+	 */
+	stopAndPersist(options?: InputOptions) {
+		clearInterval(this.timeoutRef);
+		this.spinning = false;
+		if (options) this.set(options);
+		return this;
+	}
+
+	/**
+	 * Renders the next frame of the spinner when it is stopped.
+	 */
+	renderNextFrame() {
+		if (this.spinning)
+			throw new Error(
+				"You cannot manually render frames when the spinner is running, run stopAndPersist() first."
+			);
+		this.currentFrame =
+			(this.currentFrame + 1) % this.options.spinner.frames.length;
+		this.render();
 		return this;
 	}
 
 	/**
 	 * Stops the spinner and clears its line
 	 */
-	async stop() {
+	stop() {
 		clearInterval(this.timeoutRef);
-		await clearLine(this.textEncoder);
-		if (!this.options.cursor) await showCursor(this.textEncoder);
+		clearLine(this.options.writer, this.textEncoder);
+		if (!this.options.cursor)
+			showCursor(this.options.writer, this.textEncoder);
+		this.spinning = false;
 		return this;
 	}
 
@@ -83,14 +123,14 @@ export default class Kia {
 	 * @param text The message to show when stopped
 	 * @param flair The icon to prepend the message
 	 */
-	async stopWithFlair(text: string = this.options.text, flair: string) {
-		await this.stop();
-		await writeLine(
+	stopWithFlair(text: string = this.options.text, flair: string) {
+		this.stop();
+		writeLine(
+			this.options.writer,
 			this.textEncoder,
-			`${flair} ${text}`,
+			`${flair} ${text}\n`,
 			this.options.indent
 		);
-		this.spinning = false;
 		return this;
 	}
 
@@ -100,8 +140,8 @@ export default class Kia {
 	 * The function is a wrapper around ```stopWithFlair```.
 	 * @param text The message to be shown when stopped
 	 */
-	async succeed(text: string = this.options.text) {
-		return await this.stopWithFlair(text, Colors.bold(Colors.green("√")));
+	succeed(text: string = this.options.text) {
+		return this.stopWithFlair(text, Colors.bold(Colors.green("√")));
 	}
 
 	/**
@@ -110,8 +150,8 @@ export default class Kia {
 	 * The function is a wrapper around ```stopWithFlair```.
 	 * @param text The message to be shown when stopped
 	 */
-	async fail(text: string = this.options.text) {
-		return await this.stopWithFlair(text, Colors.bold(Colors.red("X")));
+	fail(text: string = this.options.text) {
+		return this.stopWithFlair(text, Colors.bold(Colors.red("X")));
 	}
 
 	/**
@@ -120,8 +160,8 @@ export default class Kia {
 	 * The function is a wrapper around ```stopWithFlair```.
 	 * @param text The message to be shown when stopped
 	 */
-	async warn(text: string = this.options.text) {
-		return await this.stopWithFlair(text, Colors.bold(Colors.yellow("!")));
+	warn(text: string = this.options.text) {
+		return this.stopWithFlair(text, Colors.bold(Colors.yellow("!")));
 	}
 
 	/**
@@ -130,8 +170,8 @@ export default class Kia {
 	 * The function is a wrapper around ```stopWithFlair```.
 	 * @param text The message to be shown when stopped
 	 */
-	async info(text: string = this.options.text) {
-		return await this.stopWithFlair(text, Colors.bold(Colors.blue("i")));
+	info(text: string = this.options.text) {
+		return this.stopWithFlair(text, Colors.bold(Colors.blue("i")));
 	}
 
 	/**
@@ -144,10 +184,12 @@ export default class Kia {
 	/**
 	 * Renders each frame of the spinner
 	 */
-	private async render() {
-		await writeLine(
+	private render() {
+		const colorFunc = colorise(this.options.color);
+		writeLine(
+			this.options.writer,
 			this.textEncoder,
-			`${this.options.prefixText}${colorise(this.options.color)(
+			`${this.options.prefixText}${colorFunc(
 				this.options.spinner.frames[this.currentFrame]
 			)} ${this.options.text}`,
 			this.options.indent
@@ -159,8 +201,7 @@ export default class Kia {
  * Starts a spinner for a promise
  */
 export const forPromise = (action: Function, options: InputOptions) => {
-	const kia = new Kia(options);
-	kia.start();
+	const kia = new Kia(options).start();
 
 	(async () => {
 		try {

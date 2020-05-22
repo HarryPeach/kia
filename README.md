@@ -2,7 +2,9 @@
 
 > Simple terminal spinners for Deno 🦕
 
-`Version 0.2.0`
+`Version 0.3.0`
+
+![](https://github.com/HarryPeach/kia/workflows/CI/badge.svg)
 
 ![weather.ts example](https://user-images.githubusercontent.com/4750998/81313185-710ac900-907f-11ea-9735-d623559d08f6.gif)
 
@@ -12,17 +14,19 @@
 ## Usage
 
 ```typescript
-import Kia from "./mod.ts";
+import Kia from "https://deno.land/x/kia@0.3.0/mod.ts";
 
 const kia = new Kia("Hello");
-await kia.start();
+kia.start();
 // Some async action that'll take some time
-await kia.success("Action completed");
+kia.success("Action completed");
 ```
 
 More thorough examples are available in the [examples folder](https://github.com/HarryPeach/kia/tree/master/examples)
 
 ## API
+
+### kia()
 
 ### kia(text)
 
@@ -94,6 +98,14 @@ Default: false
 
 Whether or not to display a cursor when the spinner is active
 
+##### writer
+
+Type: Deno.Writer
+
+Default: Deno.stdout
+
+The resource to output to. This can be anything that uses the Writer interface including stdout, stderr, and files.
+
 ### Instance
 
 #### .start(text?)
@@ -104,13 +116,15 @@ Starts the spinner. Optionally sets the text at the same time. Returns Kia insta
 
 Stops the spinner and clears the line. Returns Kia instance.
 
+#### .set(text)
+
 #### .set(options)
 
 Allows you to change the spinners options. Returns Kia instance.
 
 ```typescript
 const kia = new Kia("Hello");
-await kia.set({ text: "Goodbye", color: "Red" });
+kia.set({ text: "Goodbye", color: "Red" });
 ```
 
 #### .succeed(text?)
@@ -127,12 +141,20 @@ Stops the spinner, and returns a message with the current text or the provided `
 
 Stops the spinner, and returns a message with the current text or the provided `text` as well as the preceding flair/icon. Returns Kia instance.
 
+#### .stopAndPersist(options)
+
+Stops the spinner and holds it in a static state. Returns the instance.
+
+#### .renderNextFrame()
+
+Renders the next frame of the spinner when it is stopped (i.e. can only be run after .stopAndPersist()).
+
 ### forPromise(action, text)
 
 ### forPromise(action, options)
 
 ```typescript
-import { forPromise } from "./mod.ts";
+import { forPromise } from "https://deno.land/x/kia@0.3.0/mod.ts";
 
 forPromise(
 	async () => {
