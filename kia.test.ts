@@ -1,8 +1,5 @@
 import Kia, { forPromise } from "./mod.ts";
-import {
-	assertThrowsAsync,
-	assertThrows,
-} from "https://deno.land/std@0.51.0/testing/asserts.ts";
+import { assertThrows } from "https://deno.land/std@0.52.0/testing/asserts.ts";
 import { expect } from "https://deno.land/x/expect/mod.ts";
 class TestWriter implements Deno.WriterSync {
 	buffer: number[] = [];
@@ -135,5 +132,16 @@ Deno.test("forPromise fail", async () => {
 		new TextDecoder()
 			.decode(Uint8Array.from(testWriter.buffer))
 			.includes("X")
+	).toBe(true);
+});
+
+Deno.test("hidden cursor is returned", () => {
+	const testWriter = new TestWriter();
+	const kia = new Kia({ writer: testWriter }).start();
+	kia.stop();
+	expect(
+		new TextDecoder()
+			.decode(Uint8Array.from(testWriter.buffer))
+			.includes("\x1b[?25h")
 	).toBe(true);
 });
