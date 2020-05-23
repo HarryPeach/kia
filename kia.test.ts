@@ -1,4 +1,4 @@
-import Kia from "./mod.ts";
+import Kia, { forPromise } from "./mod.ts";
 import {
 	assertThrowsAsync,
 	assertThrows,
@@ -94,3 +94,14 @@ Deno.test("set() changes the kia options", () => {
 
 	expect(inArray).toBe(true);
 });
+
+// Deno.test("forPromise succeed", () => {
+// 	const testWriter = new TestWriter();
+// 	forPromise(() => {}, { writer: testWriter });
+
+// 	console.error(testWriter.buffer[testWriter.buffer.length]);
+// 	Deno.writeTextFileSync("out.txt", testWriter.buffer.join());
+// 	expect(testWriter.buffer[testWriter.buffer.length - 1].includes("√")).toBe(
+// 		true
+// 	);
+// });

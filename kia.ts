@@ -141,7 +141,14 @@ export default class Kia {
 	 * @param text The message to be shown when stopped
 	 */
 	succeed(text: string = this.options.text) {
-		return this.stopWithFlair(text, Colors.bold(Colors.green("√")));
+		return this.stopWithFlair(
+			text,
+			Colors.bold(
+				Colors.green(
+					Deno.build.os === "windows" ? String.fromCharCode(30) : "√"
+				)
+			)
+		);
 	}
 
 	/**
