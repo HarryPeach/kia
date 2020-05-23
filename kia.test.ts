@@ -19,14 +19,14 @@ function sleep(ms: number) {
 }
 
 Deno.test("spinner isSpinning when running", () => {
-	const kia = new Kia();
+	const kia = new Kia({ writer: new TestWriter() });
 	kia.start();
 	expect(kia.isSpinning()).toEqual(true);
 	kia.stop();
 });
 
 Deno.test("spinner !isSpinning when not running", () => {
-	const kia = new Kia().start();
+	const kia = new Kia({ writer: new TestWriter() }).start();
 	kia.stop();
 	expect(kia.isSpinning()).toEqual(false);
 });
@@ -66,7 +66,7 @@ Deno.test("renderNextFrame() advances the spinner", () => {
 });
 
 Deno.test("check renderNextFrame can't be called if spinner is running", () => {
-	const kia = new Kia().start();
+	const kia = new Kia({ writer: new TestWriter() }).start();
 	assertThrows(() => {
 		kia.renderNextFrame();
 	}, Error);
