@@ -207,10 +207,10 @@ export default class Kia {
 /**
  * Starts a spinner for a promise
  */
-export const forPromise = (action: Function, options: InputOptions) => {
+export const forPromise = async (action: Function, options: InputOptions) => {
 	const kia = new Kia(options).start();
 
-	(async () => {
+	await (async () => {
 		try {
 			await action();
 			kia.succeed();
