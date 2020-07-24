@@ -19,7 +19,7 @@ import Kia from "https://deno.land/x/kia@0.3.0/mod.ts";
 const kia = new Kia("Hello");
 kia.start();
 // Some async action that'll take some time
-kia.success("Action completed");
+kia.succeed("Action completed");
 ```
 
 More thorough examples are available in the [examples folder](https://github.com/HarryPeach/kia/tree/master/examples)
