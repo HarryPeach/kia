@@ -14,12 +14,15 @@
 ## Usage
 
 ```typescript
-import Kia from "https://deno.land/x/kia@0.3.0/mod.ts";
 
-const kia = new Kia("Hello");
+import Kia from "https://deno.land/x/kia@0.3.0/mod.ts";
+import { sleep } from "https://x.nest.land/sleep@1.0.0/mod.ts";
+
+const kia: any = new Kia("I will be back in about 3 seconds");
 kia.start();
-// Some async action that'll take some time
-kia.success("Action completed");
+await sleep(3) // or any other async action that'll take some time
+kia.succeed("Action completed");
+
 ```
 
 More thorough examples are available in the [examples folder](https://github.com/HarryPeach/kia/tree/master/examples)
