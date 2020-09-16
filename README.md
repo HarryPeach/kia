@@ -14,12 +14,19 @@
 ## Usage
 
 ```typescript
+
 import Kia from "https://deno.land/x/kia@0.3.0/mod.ts";
 
-const kia = new Kia("Hello");
+// Just a function to async sleep
+function sleep(ms: number) {
+	return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+const kia: any = new Kia("I will be back in about 3 seconds");
 kia.start();
-// Some async action that'll take some time
+await sleep(3000) // or any other async action that'll take some time
 kia.succeed("Action completed");
+
 ```
 
 More thorough examples are available in the [examples folder](https://github.com/HarryPeach/kia/tree/master/examples)
