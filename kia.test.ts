@@ -1,13 +1,12 @@
-import Kia from "./mod.ts";
-import {
-	assertThrowsAsync,
-	assertThrows,
-} from "https://deno.land/std@0.51.0/testing/asserts.ts";
+import Kia, { forPromise } from "./mod.ts";
+import { assertThrows } from "https://deno.land/std@0.52.0/testing/asserts.ts";
 import { expect } from "https://deno.land/x/expect/mod.ts";
 class TestWriter implements Deno.WriterSync {
-	buffer: string[] = [];
+	buffer: number[] = [];
 	writeSync(p: Uint8Array): number {
-		this.buffer.push(new TextDecoder().decode(p));
+		p.forEach((pi) => {
+			this.buffer.push(pi);
+		});
 		return p.length;
 	}
 }
@@ -17,14 +16,14 @@ function sleep(ms: number) {
 }
 
 Deno.test("spinner isSpinning when running", () => {
-	const kia = new Kia();
+	const kia = new Kia({ writer: new TestWriter() });
 	kia.start();
 	expect(kia.isSpinning()).toEqual(true);
 	kia.stop();
 });
 
 Deno.test("spinner !isSpinning when not running", () => {
-	const kia = new Kia().start();
+	const kia = new Kia({ writer: new TestWriter() }).start();
 	kia.stop();
 	expect(kia.isSpinning()).toEqual(false);
 });
@@ -64,7 +63,7 @@ Deno.test("renderNextFrame() advances the spinner", () => {
 });
 
 Deno.test("check renderNextFrame can't be called if spinner is running", () => {
-	const kia = new Kia().start();
+	const kia = new Kia({ writer: new TestWriter() }).start();
 	assertThrows(() => {
 		kia.renderNextFrame();
 	}, Error);
@@ -85,12 +84,64 @@ Deno.test("set() changes the kia options", () => {
 	kia.set({ text: SEARCH_KEY });
 	kia.renderNextFrame();
 
-	let inArray = false;
-	testWriter.buffer.forEach((item) => {
-		if (item.includes(SEARCH_KEY)) {
-			inArray = true;
-		}
-	});
+	expect(
+		new TextDecoder()
+			.decode(Uint8Array.from(testWriter.buffer))
+			.includes(SEARCH_KEY)
+	).toBe(true);
+});
 
-	expect(inArray).toBe(true);
+Deno.test({
+	name: "forPromise succeed (Not Windows)",
+	ignore: Deno.build.os === "windows",
+	fn: async () => {
+		const testWriter = new TestWriter();
+		await forPromise(() => {}, { writer: testWriter });
+		expect(
+			new TextDecoder()
+				.decode(Uint8Array.from(testWriter.buffer))
+				.includes("√")
+		).toBe(true);
+	},
+});
+
+Deno.test({
+	name: "forPromise succeed (Windows)",
+	ignore: Deno.build.os !== "windows",
+	fn: async () => {
+		const testWriter = new TestWriter();
+		await forPromise(() => {}, { writer: testWriter });
+		expect(
+			new TextDecoder()
+				.decode(Uint8Array.from(testWriter.buffer))
+				.includes(String.fromCharCode(30))
+		).toBe(true);
+	},
+});
+
+Deno.test("forPromise fail", async () => {
+	const testWriter = new TestWriter();
+	await forPromise(
+		() => {
+			throw new Error();
+		},
+		{ writer: testWriter }
+	);
+
+	expect(
+		new TextDecoder()
+			.decode(Uint8Array.from(testWriter.buffer))
+			.includes("X")
+	).toBe(true);
+});
+
+Deno.test("hidden cursor is returned", () => {
+	const testWriter = new TestWriter();
+	const kia = new Kia({ writer: testWriter }).start();
+	kia.stop();
+	expect(
+		new TextDecoder()
+			.decode(Uint8Array.from(testWriter.buffer))
+			.includes("\x1b[?25h")
+	).toBe(true);
 });

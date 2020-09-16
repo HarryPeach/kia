@@ -141,7 +141,14 @@ export default class Kia {
 	 * @param text The message to be shown when stopped
 	 */
 	succeed(text: string = this.options.text) {
-		return this.stopWithFlair(text, Colors.bold(Colors.green("√")));
+		return this.stopWithFlair(
+			text,
+			Colors.bold(
+				Colors.green(
+					Deno.build.os === "windows" ? String.fromCharCode(30) : "√"
+				)
+			)
+		);
 	}
 
 	/**
@@ -200,10 +207,10 @@ export default class Kia {
 /**
  * Starts a spinner for a promise
  */
-export const forPromise = (action: Function, options: InputOptions) => {
+export const forPromise = async (action: Function, options: InputOptions) => {
 	const kia = new Kia(options).start();
 
-	(async () => {
+	await (async () => {
 		try {
 			await action();
 			kia.succeed();
