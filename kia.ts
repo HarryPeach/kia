@@ -66,6 +66,7 @@ export default class Kia {
 		if (this.spinning) {
 			this.stop();
 		}
+		
 		this.spinning = true;
 
 		if (text) this.set(text);
@@ -186,6 +187,20 @@ export default class Kia {
 	 */
 	isSpinning(): boolean {
 		return this.spinning;
+	}
+
+	/**
+	 * Returns the current spinner frame
+	 */
+	getFrame(): string {
+		return this.options.spinner.frames[this.currentFrame];
+	}
+
+	/**
+	 * Gets the current text
+	 */
+	getText(): string {
+		return this.options.text;
 	}
 
 	/**
