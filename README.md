@@ -2,7 +2,7 @@
 
 > Simple terminal spinners for Deno 🦕
 
-`Version 0.3.0`
+`Version 0.4.0`
 
 ![](https://github.com/HarryPeach/kia/workflows/CI/badge.svg)
 
@@ -15,7 +15,7 @@
 
 ```typescript
 
-import Kia from "https://deno.land/x/kia@0.3.0/mod.ts";
+import Kia from "https://deno.land/x/kia@0.4.0/mod.ts";
 
 // Just a function to async sleep
 function sleep(ms: number) {
@@ -156,12 +156,18 @@ Stops the spinner and holds it in a static state. Returns the instance.
 
 Renders the next frame of the spinner when it is stopped (i.e. can only be run after .stopAndPersist()).
 
+#### .getText()
+Returns the current text of the spinner
+
+#### .getFrame()
+Returns the current spinner frame
+
 ### forPromise(action, text)
 
 ### forPromise(action, options)
 
 ```typescript
-import { forPromise } from "https://deno.land/x/kia@0.3.0/mod.ts";
+import { forPromise } from "https://deno.land/x/kia@0.4.0/mod.ts";
 
 forPromise(
 	async () => {

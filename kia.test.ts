@@ -1,4 +1,4 @@
-import Kia, { forPromise } from "./mod.ts";
+import Kia, { forPromise, Spinners } from "./mod.ts";
 import { assertThrows } from "https://deno.land/std@0.52.0/testing/asserts.ts";
 import { expect } from "https://deno.land/x/expect/mod.ts";
 class TestWriter implements Deno.WriterSync {
@@ -144,4 +144,17 @@ Deno.test("hidden cursor is returned", () => {
 			.decode(Uint8Array.from(testWriter.buffer))
 			.includes("\x1b[?25h")
 	).toBe(true);
+});
+
+Deno.test("getFrame gets the correct frame", async () => {
+	const testWriter = new TestWriter();
+	const kia = new Kia({writer: testWriter, spinner: Spinners.windows});
+	expect(kia.getFrame()).toBe("/");
+});
+
+Deno.test("getText gets the correct text", async () => {
+	const TEST_TEXT = "This is sample text";
+	const testWriter = new TestWriter();
+	const kia = new Kia({writer: testWriter, text: TEST_TEXT});
+	expect(kia.getText()).toEqual(TEST_TEXT);
 });
