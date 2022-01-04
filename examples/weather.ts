@@ -2,15 +2,15 @@ import Kia, { Spinners } from "../mod.ts";
 
 // Just a function to async sleep
 function sleep(ms: number) {
-	return new Promise((resolve) => setTimeout(resolve, ms));
+  return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 // Create a spinner instance
 const kia = new Kia({
-	text: "Loading sun",
-	color: "cyan",
-	indent: 2,
-	spinner: Spinners.dots,
+  text: "Loading sun",
+  color: "cyan",
+  indent: 2,
+  spinner: Spinners.dots,
 });
 
 // Start the spinner
