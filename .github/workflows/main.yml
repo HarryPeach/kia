@@ -12,5 +12,5 @@ jobs:
         with:
           deno-version: v1.x
       - run: deno lint
-      - run: deno test --allow-net
+      - run: deno test
       - run: deno fmt --check
