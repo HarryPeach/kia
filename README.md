@@ -2,7 +2,7 @@
 
 > Simple terminal spinners for Deno 🦕
 
-`Version 0.4.0`
+`Version 0.4.1`
 
 ![](https://github.com/HarryPeach/kia/workflows/CI/badge.svg)
 
