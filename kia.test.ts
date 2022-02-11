@@ -1,6 +1,6 @@
 import Kia, { forPromise, Spinners } from "./mod.ts";
-import { assertThrows } from "https://deno.land/std@0.52.0/testing/asserts.ts";
-import { expect } from "https://deno.land/x/expect/mod.ts";
+import { assertThrows, expect } from "./deps.ts";
+
 class TestWriter implements Deno.WriterSync {
 	buffer: number[] = [];
 	writeSync(p: Uint8Array): number {
@@ -58,7 +58,7 @@ Deno.test("renderNextFrame() advances the spinner", () => {
 	// Check that each frame is only advancing once
 	kia.renderNextFrame();
 	expect(sizeAfterNextStop - sizeAfterStop).toEqual(
-		testWriter.buffer.length - sizeAfterNextStop
+		testWriter.buffer.length - sizeAfterNextStop,
 	);
 });
 
@@ -87,7 +87,7 @@ Deno.test("set() changes the kia options", () => {
 	expect(
 		new TextDecoder()
 			.decode(Uint8Array.from(testWriter.buffer))
-			.includes(SEARCH_KEY)
+			.includes(SEARCH_KEY),
 	).toBe(true);
 });
 
@@ -98,9 +98,9 @@ Deno.test({
 		const testWriter = new TestWriter();
 		await forPromise(() => {}, { writer: testWriter });
 		expect(
-			new TextDecoder()
-				.decode(Uint8Array.from(testWriter.buffer))
-				.includes("√")
+			new TextDecoder().decode(Uint8Array.from(testWriter.buffer)).includes(
+				"√",
+			),
 		).toBe(true);
 	},
 });
@@ -114,7 +114,7 @@ Deno.test({
 		expect(
 			new TextDecoder()
 				.decode(Uint8Array.from(testWriter.buffer))
-				.includes(String.fromCharCode(30))
+				.includes(String.fromCharCode(30)),
 		).toBe(true);
 	},
 });
@@ -125,13 +125,11 @@ Deno.test("forPromise fail", async () => {
 		() => {
 			throw new Error();
 		},
-		{ writer: testWriter }
+		{ writer: testWriter },
 	);
 
 	expect(
-		new TextDecoder()
-			.decode(Uint8Array.from(testWriter.buffer))
-			.includes("X")
+		new TextDecoder().decode(Uint8Array.from(testWriter.buffer)).includes("X"),
 	).toBe(true);
 });
 
@@ -142,19 +140,19 @@ Deno.test("hidden cursor is returned", () => {
 	expect(
 		new TextDecoder()
 			.decode(Uint8Array.from(testWriter.buffer))
-			.includes("\x1b[?25h")
+			.includes("\x1b[?25h"),
 	).toBe(true);
 });
 
-Deno.test("getFrame gets the correct frame", async () => {
+Deno.test("getFrame gets the correct frame", () => {
 	const testWriter = new TestWriter();
-	const kia = new Kia({writer: testWriter, spinner: Spinners.windows});
+	const kia = new Kia({ writer: testWriter, spinner: Spinners.windows });
 	expect(kia.getFrame()).toBe("/");
 });
 
-Deno.test("getText gets the correct text", async () => {
+Deno.test("getText gets the correct text", () => {
 	const TEST_TEXT = "This is sample text";
 	const testWriter = new TestWriter();
-	const kia = new Kia({writer: testWriter, text: TEST_TEXT});
+	const kia = new Kia({ writer: testWriter, text: TEST_TEXT });
 	expect(kia.getText()).toEqual(TEST_TEXT);
 });

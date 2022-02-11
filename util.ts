@@ -1,4 +1,4 @@
-import { Colors } from "./deps.ts";
+import { Colors, writeAllSync } from "./deps.ts";
 
 // Terminal escape sequences
 const ESC = "\x1b[";
@@ -34,34 +34,31 @@ export function writeLine(
 	writer: Deno.WriterSync,
 	encoder: TextEncoder,
 	text: string,
-	indent?: number
+	indent?: number,
 ) {
-	Deno.writeAllSync(
+	writeAllSync(
 		writer,
-		encoder.encode(`\r${indent ? ESC + indent + "C" : ""}${text}`)
+		encoder.encode(`\r${indent ? ESC + indent + "C" : ""}${text}`),
 	);
 }
 
 /**
  * Clears the line and performs a carriage return
- * @param encoder A TextEncoder object
  */
 export function clearLine(writer: Deno.WriterSync, encoder: TextEncoder) {
-	Deno.writeAllSync(writer, encoder.encode(ESC + "2K\r"));
+	writeAllSync(writer, encoder.encode(ESC + "2K\r"));
 }
 
 /**
  * Hides the terminal cursor
- * @param encoder A TextEncoder object
  */
 export function hideCursor(writer: Deno.WriterSync, encoder: TextEncoder) {
-	Deno.writeAllSync(writer, encoder.encode(ESC + "?25l"));
+	writeAllSync(writer, encoder.encode(ESC + "?25l"));
 }
 
 /**
  * Shows the terminal cursor
- * @param encoder A TextEncoder object
  */
 export function showCursor(writer: Deno.WriterSync, encoder: TextEncoder) {
-	Deno.writeAllSync(writer, encoder.encode(ESC + "?25h"));
+	writeAllSync(writer, encoder.encode(ESC + "?25h"));
 }

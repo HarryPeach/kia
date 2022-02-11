@@ -1,11 +1,11 @@
 import { Spinner, Spinners } from "./spinners.ts";
 import {
-	writeLine,
-	colorise,
-	Color,
 	clearLine,
-	showCursor,
+	Color,
+	colorise,
 	hideCursor,
+	showCursor,
+	writeLine,
 } from "./util.ts";
 import { Colors } from "./deps.ts";
 
@@ -31,9 +31,10 @@ export default class Kia {
 		writer: Deno.stdout,
 	};
 
+	// deno-lint-ignore no-explicit-any
 	private timeoutRef: any;
-	private spinning: boolean = false;
-	private currentFrame: number = 0;
+	private spinning = false;
+	private currentFrame = 0;
 	private textEncoder = new TextEncoder();
 
 	constructor(options?: InputOptions | string) {
@@ -66,17 +67,18 @@ export default class Kia {
 		if (this.spinning) {
 			this.stop();
 		}
-		
+
 		this.spinning = true;
 
 		if (text) this.set(text);
 
-		if (!this.options.cursor)
+		if (!this.options.cursor) {
 			hideCursor(this.options.writer, this.textEncoder);
+		}
 
 		this.timeoutRef = setInterval(() => {
-			this.currentFrame =
-				(this.currentFrame + 1) % this.options.spinner.frames.length;
+			this.currentFrame = (this.currentFrame + 1) %
+				this.options.spinner.frames.length;
 			this.render();
 		}, this.options.spinner.interval);
 		return this;
@@ -97,12 +99,13 @@ export default class Kia {
 	 * Renders the next frame of the spinner when it is stopped.
 	 */
 	renderNextFrame() {
-		if (this.spinning)
+		if (this.spinning) {
 			throw new Error(
-				"You cannot manually render frames when the spinner is running, run stopAndPersist() first."
+				"You cannot manually render frames when the spinner is running, run stopAndPersist() first.",
 			);
-		this.currentFrame =
-			(this.currentFrame + 1) % this.options.spinner.frames.length;
+		}
+		this.currentFrame = (this.currentFrame + 1) %
+			this.options.spinner.frames.length;
 		this.render();
 		return this;
 	}
@@ -113,8 +116,9 @@ export default class Kia {
 	stop() {
 		clearInterval(this.timeoutRef);
 		clearLine(this.options.writer, this.textEncoder);
-		if (!this.options.cursor)
+		if (!this.options.cursor) {
 			showCursor(this.options.writer, this.textEncoder);
+		}
 		this.spinning = false;
 		return this;
 	}
@@ -130,7 +134,7 @@ export default class Kia {
 			this.options.writer,
 			this.textEncoder,
 			`${flair} ${text}\n`,
-			this.options.indent
+			this.options.indent,
 		);
 		return this;
 	}
@@ -146,9 +150,9 @@ export default class Kia {
 			text,
 			Colors.bold(
 				Colors.green(
-					Deno.build.os === "windows" ? String.fromCharCode(30) : "√"
-				)
-			)
+					Deno.build.os === "windows" ? String.fromCharCode(30) : "√",
+				),
+			),
 		);
 	}
 
@@ -211,10 +215,12 @@ export default class Kia {
 		writeLine(
 			this.options.writer,
 			this.textEncoder,
-			`${this.options.prefixText}${colorFunc(
-				this.options.spinner.frames[this.currentFrame]
-			)} ${this.options.text}`,
-			this.options.indent
+			`${this.options.prefixText}${
+				colorFunc(
+					this.options.spinner.frames[this.currentFrame],
+				)
+			} ${this.options.text}`,
+			this.options.indent,
 		);
 	}
 }
@@ -222,6 +228,7 @@ export default class Kia {
 /**
  * Starts a spinner for a promise
  */
+// deno-lint-ignore ban-types
 export const forPromise = async (action: Function, options: InputOptions) => {
 	const kia = new Kia(options).start();
 
