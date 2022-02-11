@@ -1,7 +1,7 @@
 {
 	"name": "kia",
 	"description": "Simple terminal spinners for Deno 🦕",
-	"version": "0.4.0",
+	"version": "0.4.1",
 	"unstable": false,
 	"entry": "/mod.ts",
 	"repository": "https://github.com/HarryPeach/kia",
