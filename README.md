@@ -20,7 +20,7 @@ import Kia from "https://deno.land/x/kia@0.4.0/mod.ts";
 
 // Just a function to async sleep
 function sleep(ms: number) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
+	return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 const kia: any = new Kia("I will be back in about 3 seconds");
@@ -47,8 +47,8 @@ mapped to `Options.text`
 const kia = new Kia("Hello");
 // or
 const kia = new Kia({
-  text: "Hello",
-  color: "Red",
+	text: "Hello",
+	color: "Red",
 });
 ```
 
@@ -186,10 +186,10 @@ Returns the current spinner frame
 import { forPromise } from "https://deno.land/x/kia@0.4.0/mod.ts";
 
 forPromise(
-  async () => {
-    await yourAsyncAction();
-  },
-  { text: name },
+	async () => {
+		await yourAsyncAction();
+	},
+	{ text: name },
 );
 ```
 

@@ -4,7 +4,7 @@ import { SPINNERS } from "https://raw.githubusercontent.com/ameerthehacker/cli-s
 
 // Just a function to async sleep
 function sleep(ms: number) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
+	return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 // Use the spinner "flip"

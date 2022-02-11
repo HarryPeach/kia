@@ -1,6 +1,6 @@
 name: CI
 
-on: push
+on: [push, pull_request]
 
 jobs:
   lint:
@@ -13,4 +13,4 @@ jobs:
           deno-version: v1.x
       - run: deno lint
       - run: deno test
-      - run: deno fmt --check
+      - run: deno fmt --check --config=./deno.json

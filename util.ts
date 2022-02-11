@@ -7,22 +7,22 @@ const ESC = "\x1b[";
  * The colors to be used with the Kia spinner
  */
 export type Color =
-  | "black"
-  | "red"
-  | "green"
-  | "yellow"
-  | "blue"
-  | "magenta"
-  | "cyan"
-  | "white"
-  | "gray";
+	| "black"
+	| "red"
+	| "green"
+	| "yellow"
+	| "blue"
+	| "magenta"
+	| "cyan"
+	| "white"
+	| "gray";
 
 /**
  * Converts the Kia color type to the Deno color functions
  * @param color The color string
  */
 export function colorise(color: Color) {
-  return Colors[color];
+	return Colors[color];
 }
 
 /**
@@ -31,34 +31,34 @@ export function colorise(color: Color) {
  * @param text The text to be written
  */
 export function writeLine(
-  writer: Deno.WriterSync,
-  encoder: TextEncoder,
-  text: string,
-  indent?: number,
+	writer: Deno.WriterSync,
+	encoder: TextEncoder,
+	text: string,
+	indent?: number,
 ) {
-  writeAllSync(
-    writer,
-    encoder.encode(`\r${indent ? ESC + indent + "C" : ""}${text}`),
-  );
+	writeAllSync(
+		writer,
+		encoder.encode(`\r${indent ? ESC + indent + "C" : ""}${text}`),
+	);
 }
 
 /**
  * Clears the line and performs a carriage return
  */
 export function clearLine(writer: Deno.WriterSync, encoder: TextEncoder) {
-  writeAllSync(writer, encoder.encode(ESC + "2K\r"));
+	writeAllSync(writer, encoder.encode(ESC + "2K\r"));
 }
 
 /**
  * Hides the terminal cursor
  */
 export function hideCursor(writer: Deno.WriterSync, encoder: TextEncoder) {
-  writeAllSync(writer, encoder.encode(ESC + "?25l"));
+	writeAllSync(writer, encoder.encode(ESC + "?25l"));
 }
 
 /**
  * Shows the terminal cursor
  */
 export function showCursor(writer: Deno.WriterSync, encoder: TextEncoder) {
-  writeAllSync(writer, encoder.encode(ESC + "?25h"));
+	writeAllSync(writer, encoder.encode(ESC + "?25h"));
 }
