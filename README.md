@@ -30,7 +30,7 @@ kia.succeed("Action completed");
 ```
 
 More thorough examples are available in the
-[examples folder](https://github.com/HarryPeach/kia/tree/master/examples)
+[examples folder](Examples)
 
 ## API
 
@@ -67,7 +67,7 @@ The text to display after the spinner
 ##### color
 
 Type:
-[Color](https://github.com/HarryPeach/kia/blob/8fb27cbd0bb4ef08ad26124d4a6e4f2ba2dc0c5c/util.ts#L6)
+[Color](Source/util.ts)
 
 Default: "white"
 
@@ -77,7 +77,7 @@ the Deno standard colors.
 ##### spinner
 
 Type:
-[Spinner](https://github.com/HarryPeach/kia/blob/8fb27cbd0bb4ef08ad26124d4a6e4f2ba2dc0c5c/spinners.ts#L1)
+[Spinner](Source/spinners.ts)
 
 Default: Dependent on OS (See below)
 
