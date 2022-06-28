@@ -1,2 +1,2 @@
-export { default, forPromise } from "./kia.ts";
-export { Spinners } from "./spinners.ts";
+export { default, forPromise } from './Source/kia.ts';
+export { Spinners } from './Source/spinners.ts';

@@ -1,5 +1,5 @@
-import Kia, { forPromise, Spinners } from "./mod.ts";
-import { assertThrows, expect } from "./deps.ts";
+import Kia, { forPromise, Spinners } from '../mod.ts';
+import { assertThrows, expect } from '../Source/deps.ts';
 
 class TestWriter implements Deno.WriterSync {
 	buffer: number[] = [];
