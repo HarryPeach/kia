@@ -1,21 +1,21 @@
-import { Colors, writeAllSync } from "./deps.ts";
+import { Colors, writeAllSync } from './deps.ts';
 
 // Terminal escape sequences
-const ESC = "\x1b[";
+const ESC = '\x1b[';
 
 /**
  * The colors to be used with the Kia spinner
  */
 export type Color =
-	| "black"
-	| "red"
-	| "green"
-	| "yellow"
-	| "blue"
-	| "magenta"
-	| "cyan"
-	| "white"
-	| "gray";
+	| 'black'
+	| 'red'
+	| 'green'
+	| 'yellow'
+	| 'blue'
+	| 'magenta'
+	| 'cyan'
+	| 'white'
+	| 'gray';
 
 /**
  * Converts the Kia color type to the Deno color functions
@@ -38,7 +38,7 @@ export function writeLine(
 ) {
 	writeAllSync(
 		writer,
-		encoder.encode(`\r${indent ? ESC + indent + "C" : ""}${text}`),
+		encoder.encode(`\r${indent ? ESC + indent + 'C' : ''}${text}`),
 	);
 }
 
@@ -46,19 +46,19 @@ export function writeLine(
  * Clears the line and performs a carriage return
  */
 export function clearLine(writer: Deno.WriterSync, encoder: TextEncoder) {
-	writeAllSync(writer, encoder.encode(ESC + "2K\r"));
+	writeAllSync(writer, encoder.encode(ESC + '2K\r'));
 }
 
 /**
  * Hides the terminal cursor
  */
 export function hideCursor(writer: Deno.WriterSync, encoder: TextEncoder) {
-	writeAllSync(writer, encoder.encode(ESC + "?25l"));
+	writeAllSync(writer, encoder.encode(ESC + '?25l'));
 }
 
 /**
  * Shows the terminal cursor
  */
 export function showCursor(writer: Deno.WriterSync, encoder: TextEncoder) {
-	writeAllSync(writer, encoder.encode(ESC + "?25h"));
+	writeAllSync(writer, encoder.encode(ESC + '?25h'));
 }

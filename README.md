@@ -16,21 +16,20 @@
 ## Usage
 
 ```typescript
-import Kia from "https://deno.land/x/kia@0.4.1/mod.ts";
+import Kia from 'https://deno.land/x/kia@0.4.1/mod.ts';
 
 // Just a function to async sleep
 function sleep(ms: number) {
 	return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-const kia: any = new Kia("I will be back in about 3 seconds");
+const kia: any = new Kia('I will be back in about 3 seconds');
 kia.start();
 await sleep(3000); // or any other async action that'll take some time
-kia.succeed("Action completed");
+kia.succeed('Action completed');
 ```
 
-More thorough examples are available in the
-[examples folder](https://github.com/HarryPeach/kia/tree/master/examples)
+More thorough examples are available in the [examples folder](Examples)
 
 ## API
 
@@ -44,11 +43,11 @@ Kia can be created with a string or the Options interface. A string is simply
 mapped to `Options.text`
 
 ```typescript
-const kia = new Kia("Hello");
+const kia = new Kia('Hello');
 // or
 const kia = new Kia({
-	text: "Hello",
-	color: "Red",
+	text: 'Hello',
+	color: 'Red',
 });
 ```
 
@@ -66,8 +65,7 @@ The text to display after the spinner
 
 ##### color
 
-Type:
-[Color](https://github.com/HarryPeach/kia/blob/8fb27cbd0bb4ef08ad26124d4a6e4f2ba2dc0c5c/util.ts#L6)
+Type: [Color](Source/util.ts)
 
 Default: "white"
 
@@ -76,8 +74,7 @@ the Deno standard colors.
 
 ##### spinner
 
-Type:
-[Spinner](https://github.com/HarryPeach/kia/blob/8fb27cbd0bb4ef08ad26124d4a6e4f2ba2dc0c5c/spinners.ts#L1)
+Type: [Spinner](Source/spinners.ts)
 
 Default: Dependent on OS (See below)
 
@@ -140,8 +137,8 @@ Stops the spinner and clears the line. Returns Kia instance.
 Allows you to change the spinners options. Returns Kia instance.
 
 ```typescript
-const kia = new Kia("Hello");
-kia.set({ text: "Goodbye", color: "Red" });
+const kia = new Kia('Hello');
+kia.set({ text: 'Goodbye', color: 'Red' });
 ```
 
 #### .succeed(text?)
@@ -183,7 +180,7 @@ Returns the current spinner frame
 ### forPromise(action, options)
 
 ```typescript
-import { forPromise } from "https://deno.land/x/kia@0.4.1/mod.ts";
+import { forPromise } from 'https://deno.land/x/kia@0.4.1/mod.ts';
 
 forPromise(
 	async () => {

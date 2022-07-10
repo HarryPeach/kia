@@ -6,14 +6,14 @@ export interface Spinner {
 export const Spinners = {
 	windows: {
 		interval: 80,
-		frames: ["/", "-", "\\", "|"],
+		frames: ['/', '-', '\\', '|'],
 	},
 	dots: {
 		interval: 80,
-		frames: ["⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏"],
+		frames: ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏'],
 	},
 	arc: {
 		interval: 100,
-		frames: ["◜", "◠", "◝", "◞", "◡", "◟"],
+		frames: ['◜', '◠', '◝', '◞', '◡', '◟'],
 	},
 };
