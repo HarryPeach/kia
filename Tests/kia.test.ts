@@ -15,22 +15,22 @@ function sleep(ms: number) {
 	return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-Deno.test("spinner isSpinning when running", () => {
+Deno.test('spinner isSpinning when running', () => {
 	const kia = new Kia({ writer: new TestWriter() });
 	kia.start();
 	expect(kia.isSpinning()).toEqual(true);
 	kia.stop();
 });
 
-Deno.test("spinner !isSpinning when not running", () => {
+Deno.test('spinner !isSpinning when not running', () => {
 	const kia = new Kia({ writer: new TestWriter() }).start();
 	kia.stop();
 	expect(kia.isSpinning()).toEqual(false);
 });
 
-Deno.test("stopAndPersist stops the spinner output", async () => {
+Deno.test('stopAndPersist stops the spinner output', async () => {
 	const testWriter = new TestWriter();
-	const kia = new Kia({ text: "", writer: testWriter }).start();
+	const kia = new Kia({ text: '', writer: testWriter }).start();
 	kia?.stopAndPersist();
 
 	// Wait and check that there are no extra prints
@@ -40,10 +40,10 @@ Deno.test("stopAndPersist stops the spinner output", async () => {
 	expect(sizeAfterStop).toEqual(testWriter.buffer.length);
 });
 
-Deno.test("renderNextFrame() advances the spinner", () => {
+Deno.test('renderNextFrame() advances the spinner', () => {
 	const testWriter = new TestWriter();
 	const kia = new Kia({
-		text: "",
+		text: '',
 		writer: testWriter,
 	}).start();
 	kia.stopAndPersist();
@@ -62,7 +62,7 @@ Deno.test("renderNextFrame() advances the spinner", () => {
 	);
 });
 
-Deno.test("check renderNextFrame can't be called if spinner is running", () => {
+Deno.test('check renderNextFrame can\'t be called if spinner is running', () => {
 	const kia = new Kia({ writer: new TestWriter() }).start();
 	assertThrows(() => {
 		kia.renderNextFrame();
@@ -70,12 +70,12 @@ Deno.test("check renderNextFrame can't be called if spinner is running", () => {
 	kia.stop();
 });
 
-Deno.test("set() changes the kia options", () => {
+Deno.test('set() changes the kia options', () => {
 	const testWriter = new TestWriter();
-	const SEARCH_KEY = "XXX";
+	const SEARCH_KEY = 'XXX';
 
 	const kia = new Kia({
-		text: "sample",
+		text: 'sample',
 		writer: testWriter,
 	}).start();
 
@@ -92,22 +92,22 @@ Deno.test("set() changes the kia options", () => {
 });
 
 Deno.test({
-	name: "forPromise succeed (Not Windows)",
-	ignore: Deno.build.os === "windows",
+	name: 'forPromise succeed (Not Windows)',
+	ignore: Deno.build.os === 'windows',
 	fn: async () => {
 		const testWriter = new TestWriter();
 		await forPromise(() => {}, { writer: testWriter });
 		expect(
 			new TextDecoder().decode(Uint8Array.from(testWriter.buffer)).includes(
-				"√",
+				'√',
 			),
 		).toBe(true);
 	},
 });
 
 Deno.test({
-	name: "forPromise succeed (Windows)",
-	ignore: Deno.build.os !== "windows",
+	name: 'forPromise succeed (Windows)',
+	ignore: Deno.build.os !== 'windows',
 	fn: async () => {
 		const testWriter = new TestWriter();
 		await forPromise(() => {}, { writer: testWriter });
@@ -119,7 +119,7 @@ Deno.test({
 	},
 });
 
-Deno.test("forPromise fail", async () => {
+Deno.test('forPromise fail', async () => {
 	const testWriter = new TestWriter();
 	await forPromise(
 		() => {
@@ -129,29 +129,29 @@ Deno.test("forPromise fail", async () => {
 	);
 
 	expect(
-		new TextDecoder().decode(Uint8Array.from(testWriter.buffer)).includes("X"),
+		new TextDecoder().decode(Uint8Array.from(testWriter.buffer)).includes('X'),
 	).toBe(true);
 });
 
-Deno.test("hidden cursor is returned", () => {
+Deno.test('hidden cursor is returned', () => {
 	const testWriter = new TestWriter();
 	const kia = new Kia({ writer: testWriter }).start();
 	kia.stop();
 	expect(
 		new TextDecoder()
 			.decode(Uint8Array.from(testWriter.buffer))
-			.includes("\x1b[?25h"),
+			.includes('\x1b[?25h'),
 	).toBe(true);
 });
 
-Deno.test("getFrame gets the correct frame", () => {
+Deno.test('getFrame gets the correct frame', () => {
 	const testWriter = new TestWriter();
 	const kia = new Kia({ writer: testWriter, spinner: Spinners.windows });
-	expect(kia.getFrame()).toBe("/");
+	expect(kia.getFrame()).toBe('/');
 });
 
-Deno.test("getText gets the correct text", () => {
-	const TEST_TEXT = "This is sample text";
+Deno.test('getText gets the correct text', () => {
+	const TEST_TEXT = 'This is sample text';
 	const testWriter = new TestWriter();
 	const kia = new Kia({ writer: testWriter, text: TEST_TEXT });
 	expect(kia.getText()).toEqual(TEST_TEXT);

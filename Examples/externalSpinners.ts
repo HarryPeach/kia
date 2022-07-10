@@ -1,6 +1,6 @@
-import Kia from "../mod.ts";
+import Kia from '../mod.ts';
 // Import some spinners from cli-spinners by ameerthehacker
-import { SPINNERS } from "https://raw.githubusercontent.com/ameerthehacker/cli-spinners/master/spinners.ts";
+import { SPINNERS } from 'https://raw.githubusercontent.com/ameerthehacker/cli-spinners/master/spinners.ts';
 
 // Just a function to async sleep
 function sleep(ms: number) {
@@ -8,11 +8,11 @@ function sleep(ms: number) {
 }
 
 // Use the spinner "flip"
-const kia = new Kia({ text: "A spinner", spinner: SPINNERS.flip });
+const kia = new Kia({ text: 'A spinner', spinner: SPINNERS.flip });
 kia.start();
 await sleep(2000);
 
 // Switch the spinner to "dots8"
-kia.set({ text: "Another spinner!", spinner: SPINNERS.dots8 });
+kia.set({ text: 'Another spinner!', spinner: SPINNERS.dots8 });
 await sleep(2000);
 kia.stop();

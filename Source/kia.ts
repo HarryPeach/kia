@@ -1,4 +1,4 @@
-import { Spinner, Spinners } from "./spinners.ts";
+import { Spinner, Spinners } from './spinners.ts';
 import {
 	clearLine,
 	Color,
@@ -6,8 +6,8 @@ import {
 	hideCursor,
 	showCursor,
 	writeLine,
-} from "./util.ts";
-import { Colors } from "./deps.ts";
+} from './util.ts';
+import { Colors } from './deps.ts';
 
 export interface Options {
 	text: string;
@@ -22,10 +22,10 @@ type InputOptions = Partial<Options>;
 
 export default class Kia {
 	private options: Options = {
-		text: "",
-		color: "white",
-		spinner: Deno.build.os === "windows" ? Spinners.windows : Spinners.dots,
-		prefixText: "",
+		text: '',
+		color: 'white',
+		spinner: Deno.build.os === 'windows' ? Spinners.windows : Spinners.dots,
+		prefixText: '',
 		indent: 0,
 		cursor: false,
 		writer: Deno.stdout,
@@ -39,7 +39,7 @@ export default class Kia {
 
 	constructor(options?: InputOptions | string) {
 		if (!options) return;
-		if (typeof options === "string") {
+		if (typeof options === 'string') {
 			options = {
 				text: options,
 			};
@@ -49,7 +49,7 @@ export default class Kia {
 	}
 
 	public set(options: InputOptions | string) {
-		if (typeof options === "string") {
+		if (typeof options === 'string') {
 			options = {
 				text: options,
 			};
@@ -101,7 +101,7 @@ export default class Kia {
 	renderNextFrame() {
 		if (this.spinning) {
 			throw new Error(
-				"You cannot manually render frames when the spinner is running, run stopAndPersist() first.",
+				'You cannot manually render frames when the spinner is running, run stopAndPersist() first.',
 			);
 		}
 		this.currentFrame = (this.currentFrame + 1) %
@@ -150,7 +150,7 @@ export default class Kia {
 			text,
 			Colors.bold(
 				Colors.green(
-					Deno.build.os === "windows" ? String.fromCharCode(30) : "√",
+					Deno.build.os === 'windows' ? String.fromCharCode(30) : '√',
 				),
 			),
 		);
@@ -163,7 +163,7 @@ export default class Kia {
 	 * @param text The message to be shown when stopped
 	 */
 	fail(text: string = this.options.text) {
-		return this.stopWithFlair(text, Colors.bold(Colors.red("X")));
+		return this.stopWithFlair(text, Colors.bold(Colors.red('X')));
 	}
 
 	/**
@@ -173,7 +173,7 @@ export default class Kia {
 	 * @param text The message to be shown when stopped
 	 */
 	warn(text: string = this.options.text) {
-		return this.stopWithFlair(text, Colors.bold(Colors.yellow("!")));
+		return this.stopWithFlair(text, Colors.bold(Colors.yellow('!')));
 	}
 
 	/**
@@ -183,7 +183,7 @@ export default class Kia {
 	 * @param text The message to be shown when stopped
 	 */
 	info(text: string = this.options.text) {
-		return this.stopWithFlair(text, Colors.bold(Colors.blue("i")));
+		return this.stopWithFlair(text, Colors.bold(Colors.blue('i')));
 	}
 
 	/**
